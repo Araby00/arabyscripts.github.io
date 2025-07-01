@@ -153,15 +153,31 @@
         }
 
         .hero-title {
-            font-size: 4rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: slideInLeft 1s ease 0.2s both;
-        }
+    font-size: 4rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    /* Remove the slideInLeft animation since we're doing typing animation */
+    min-height: 1.2em; /* This keeps the space even when text is empty */
+}
+        /* Add blinking cursor for typing effect */
+.hero-title::after {
+    content: '|';
+    animation: blink 1s infinite;
+    color: var(--primary);
+}
+
+.hero-title.typing-complete::after {
+    display: none;
+}
+
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
 
         .hero-subtitle {
             font-size: 1.5rem;
@@ -1067,20 +1083,22 @@ function verifyAndDownload() {
         // Create particles periodically
         setInterval(createParticle, 300);
 
-        // Add typing effect to hero title
         function typeWriter(element, text, speed = 100) {
-            let i = 0;
-            element.innerHTML = '';
-
-            function type() {
-                if (i < text.length) {
-                    element.innerHTML += text.charAt(i);
-                    i++;
-                    setTimeout(type, speed);
-                }
-            }
-            type();
+    let i = 0;
+    element.innerHTML = '';
+    
+    function type() {
+        if (i < text.length) {
+            element.innerHTML += text.charAt(i);
+            i++;
+            setTimeout(type, speed);
+        } else {
+            // Remove cursor when typing is complete
+            element.classList.add('typing-complete');
         }
+    }
+    type();
+}
 
         // Initialize typing effect when page loads
 window.addEventListener('load', () => {
