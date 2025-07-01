@@ -3,139 +3,132 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Araby Scripts - Premium Script Marketplace</title>
+    <title>ArabyScripts - Auto Booking Scripts</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary-color: #6366f1;
-            --primary-dark: #4f46e5;
-            --secondary-color: #0f172a;
-            --dark-bg: #0f172a;
-            --darker-bg: #020617;
-            --card-bg: #1e293b;
-            --card-hover: #334155;
-            --text-primary: #f1f5f9;
-            --text-secondary: #cbd5e1;
-            --text-muted: #94a3b8;
-            --accent-green: #10b981;
-            --accent-amber: #f59e0b;
-            --border-color: #334155;
-            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-            --gradient-primary: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
-            --gradient-dark: linear-gradient(135deg, #1e293b 0%, #334155 100%);
-        }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #0ea5e9;
+            --accent: #f59e0b;
+            --text-light: #f8fafc;
+            --text-dark: #0f172a;
+            --bg-dark: #0f0f23;
+            --bg-card: #1e1e3f;
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-light);
             line-height: 1.6;
-            color: var(--text-primary);
-            background: var(--dark-bg);
-            font-weight: 400;
-            letter-spacing: -0.01em;
+            overflow-x: hidden;
         }
 
-        .container {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 1.5rem;
-        }
-
-        /* Header */
-        header {
-            background: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border-color);
-            padding: 1rem 0;
-            position: sticky;
+        /* Navigation */
+        .navbar {
+            position: fixed;
             top: 0;
-            z-index: 100;
+            width: 100%;
+            background: rgba(15, 15, 35, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
             transition: all 0.3s ease;
         }
+/* Add this new CSS rule anywhere in your <style> section */
+.separator-line {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.5), transparent);
+    margin: 1.5rem 0;
+    position: relative;
+}
 
-        nav {
+.separator-line::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 6px;
+    height: 6px;
+    background: var(--primary);
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+}
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            height: 60px;
+            padding: 0 2rem;
         }
 
         .logo {
-            font-size: 1.75rem;
-            font-weight: 800;
-            background: var(--gradient-primary);
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: var(--gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        .logo:hover {
-            transform: scale(1.05);
         }
 
         .nav-links {
             display: flex;
             list-style: none;
-            gap: 2.5rem;
-            align-items: center;
+            gap: 2rem;
         }
 
         .nav-links a {
+            color: var(--text-light);
             text-decoration: none;
-            color: var(--text-secondary);
             font-weight: 500;
-            font-size: 0.95rem;
             transition: all 0.3s ease;
-            cursor: pointer;
             position: relative;
-            padding: 0.5rem 0;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+            transform: translateY(-2px);
         }
 
         .nav-links a::after {
             content: '';
             position: absolute;
-            bottom: 0;
+            bottom: -5px;
             left: 0;
             width: 0;
             height: 2px;
-            background: var(--gradient-primary);
+            background: var(--gradient);
             transition: width 0.3s ease;
-        }
-
-        .nav-links a:hover {
-            color: var(--text-primary);
         }
 
         .nav-links a:hover::after {
             width: 100%;
         }
 
-        /* Main Content Sections */
-        .section {
-            display: none;
-            animation: fadeIn 0.6s ease;
-        }
-
-        .section.active {
-            display: block;
-        }
-
         /* Hero Section */
         .hero {
-            background: var(--gradient-dark);
-            text-align: center;
-            padding: 6rem 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             position: relative;
             overflow: hidden;
         }
@@ -145,64 +138,83 @@
             position: absolute;
             top: 0;
             left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="a" cx="50%" cy="50%"><stop offset="0%" stop-color="%236366f1" stop-opacity="0.1"/><stop offset="100%" stop-color="%236366f1" stop-opacity="0"/></radialGradient></defs><circle cx="200" cy="200" r="150" fill="url(%23a)"/><circle cx="800" cy="300" r="200" fill="url(%23a)"/><circle cx="400" cy="700" r="180" fill="url(%23a)"/></svg>') no-repeat center center;
-            background-size: cover;
-            opacity: 0.3;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient);
+            opacity: 0.1;
+            z-index: -1;
         }
 
         .hero-content {
-            position: relative;
-            z-index: 2;
+            text-align: center;
+            max-width: 800px;
+            padding: 0 2rem;
+            animation: fadeInUp 1s ease;
         }
 
-        .hero h1 {
+        .hero-title {
             font-size: 4rem;
-            font-weight: 800;
-            margin-bottom: 1.5rem;
-            background: var(--gradient-primary);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: var(--gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            line-height: 1.1;
-            letter-spacing: -0.02em;
+            animation: slideInLeft 1s ease 0.2s both;
         }
 
-        .hero h2 {
+        .hero-subtitle {
             font-size: 1.5rem;
             margin-bottom: 2rem;
-            color: var(--text-secondary);
-            font-weight: 500;
-            letter-spacing: -0.01em;
+            color: #94a3b8;
+            animation: slideInRight 1s ease 0.4s both;
         }
 
-        .hero p {
-            font-size: 1.125rem;
-            max-width: 700px;
-            margin: 0 auto 3rem;
-            color: var(--text-muted);
-            line-height: 1.7;
+        .hero-description {
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            color: #cbd5e1;
+            animation: fadeIn 1s ease 0.6s both;
         }
 
-        /* Button Styles */
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease 0.8s both;
+        }
+
         .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            background: var(--gradient-primary);
-            color: white;
-            padding: 1rem 2rem;
-            text-decoration: none;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            box-shadow: var(--shadow-lg);
-            cursor: pointer;
-            border: none;
             position: relative;
             overflow: hidden;
+        }
+
+        .btn-primary {
+            background: var(--gradient);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-light);
+            border: 2px solid var(--primary);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
         }
 
         .btn::before {
@@ -220,1148 +232,790 @@
             left: 100%;
         }
 
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-xl);
-        }
-
-        .btn:active {
-            transform: translateY(0);
-        }
-
-        /* Features Section */
-        .features {
-            background: var(--darker-bg);
-            padding: 6rem 0;
-        }
-
-        .features h2 {
-            text-align: center;
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: var(--text-primary);
-            letter-spacing: -0.02em;
-        }
-
-        .features-subtitle {
-            text-align: center;
-            font-size: 1.125rem;
-            color: var(--text-muted);
-            margin-bottom: 4rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-        }
-
-        .feature-card {
-            background: var(--card-bg);
-            padding: 2.5rem;
-            border-radius: 16px;
-            border: 1px solid var(--border-color);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .feature-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: var(--gradient-primary);
-            transform: scaleX(0);
-            transition: transform 0.3s ease;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-4px);
-            border-color: var(--primary-color);
-            box-shadow: var(--shadow-xl);
-        }
-
-        .feature-card:hover::before {
-            transform: scaleX(1);
-        }
-
-        .feature-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 12px;
-            background: var(--gradient-primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1.5rem;
-            font-size: 1.5rem;
-            color: white;
-        }
-
-        .feature-card h3 {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            color: var(--text-primary);
-        }
-
-        .feature-card p {
-            color: var(--text-muted);
-            line-height: 1.6;
-        }
-
         /* Scripts Section */
-        .scripts-section {
-            background: var(--dark-bg);
-            padding: 6rem 0;
+        .scripts {
+            padding: 5rem 0;
         }
 
-        .scripts-header {
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
             text-align: center;
-            margin-bottom: 4rem;
-        }
-
-        .scripts-header h2 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 1rem;
-            letter-spacing: -0.02em;
-        }
-
-        .back-btn {
-            background: var(--card-bg);
-            color: var(--text-primary);
-            padding: 0.75rem 1.5rem;
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 0.95rem;
-            font-weight: 500;
+            font-size: 3rem;
             margin-bottom: 3rem;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .back-btn:hover {
-            background: var(--card-hover);
-            transform: translateX(-2px);
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .scripts-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
             gap: 3rem;
+            margin-top: 3rem;
         }
 
         .script-card {
-            background: var(--card-bg);
+            background: var(--bg-card);
             border-radius: 20px;
-            border: 1px solid var(--border-color);
             overflow: hidden;
             transition: all 0.3s ease;
+            border: 1px solid rgba(99, 102, 241, 0.2);
             position: relative;
         }
 
         .script-card:hover {
-            transform: translateY(-6px);
-            box-shadow: var(--shadow-xl);
-            border-color: var(--primary-color);
-        }
-
-        .script-price {
-            background: var(--gradient-primary);
-            color: white;
-            padding: 1.25rem;
-            font-weight: 700;
-            font-size: 1.5rem;
-            text-align: center;
-            position: relative;
-        }
-
-        .script-price::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 0;
-            border-style: solid;
-            border-width: 10px 15px 0 15px;
-            border-color: var(--primary-color) transparent transparent transparent;
-        }
-
-        .script-content {
-            padding: 2rem;
-        }
-
-        .script-card h3 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
-
-        .script-card p {
-            color: var(--text-muted);
-            margin-bottom: 2rem;
-            line-height: 1.6;
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(99, 102, 241, 0.3);
         }
 
         .script-video {
             width: 100%;
-            height: 240px;
-            border-radius: 12px;
-            margin-bottom: 2rem;
-            overflow: hidden;
-            box-shadow: var(--shadow-md);
+            height: 250px;
         }
 
         .script-video iframe {
             width: 100%;
             height: 100%;
             border: none;
-            border-radius: 12px;
         }
 
-        .purchase-section {
-            border-top: 1px solid var(--border-color);
-            padding-top: 2rem;
+        .script-content {
+            padding: 2rem;
+        }
+
+        .script-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+        }
+
+        .script-description {
+            color: #94a3b8;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .script-description ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .script-description li {
+            margin-bottom: 0.5rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .script-description li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .script-price {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--accent);
+            margin-bottom: 1rem;
             text-align: center;
         }
 
-        .purchase-section h4 {
-            margin-bottom: 1.5rem;
-            color: var(--text-primary);
-            font-weight: 600;
+        .script-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
         }
 
-        .purchase-btn {
-            background: var(--accent-green);
-            color: white;
-            padding: 1rem 2rem;
+        .download-btn, .purchase-btn {
+            padding: 0.8rem 1.5rem;
             border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 1rem;
+            border-radius: 25px;
             font-weight: 600;
-            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            text-decoration: none;
-            margin-bottom: 2rem;
-            box-shadow: var(--shadow-md);
-        }
-
-        .purchase-btn:hover {
-            background: #059669;
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .license-section {
-            margin-top: 2rem;
-            padding-top: 2rem;
-            border-top: 1px solid var(--border-color);
-        }
-
-        .license-section h4 {
-            margin-bottom: 1.5rem;
-            color: var(--text-primary);
-            font-weight: 600;
-        }
-
-        .license-input {
-            width: 100%;
-            padding: 1rem;
-            border: 2px solid var(--border-color);
-            border-radius: 10px;
-            font-size: 1rem;
-            margin-bottom: 1.5rem;
-            background: var(--darker-bg);
-            color: var(--text-primary);
             transition: all 0.3s ease;
-        }
-
-        .license-input:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
         }
 
         .download-btn {
-            background: var(--gradient-primary);
+            background: var(--secondary);
             color: white;
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            box-shadow: var(--shadow-md);
         }
 
-        .download-btn:hover {
+        .purchase-btn {
+            background: var(--gradient);
+            color: white;
+        }
+
+        .download-btn:hover, .purchase-btn:hover {
             transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
+            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
         }
 
-        /* Payment Modal */
-        .modal {
+        .license-section {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: var(--bg-dark);
+            border-radius: 10px;
             display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(4px);
         }
 
-        .modal-content {
-            background: var(--card-bg);
-            margin: 2% auto;
-            padding: 2.5rem;
-            border-radius: 20px;
-            width: 90%;
-            max-width: 800px;
-            position: relative;
-            border: 1px solid var(--border-color);
-            box-shadow: var(--shadow-xl);
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-
-        .close {
-            color: var(--text-muted);
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-            position: absolute;
-            right: 20px;
-            top: 15px;
-            transition: color 0.3s ease;
-        }
-
-        .close:hover {
-            color: var(--text-primary);
-        }
-
-        .payment-form {
-            text-align: center;
-        }
-
-        .payment-form h3 {
-            margin-bottom: 2rem;
-            color: var(--text-primary);
-            font-size: 1.75rem;
-            font-weight: 600;
-        }
-
-        .payment-details {
-            background: var(--darker-bg);
-            padding: 2rem;
-            border-radius: 12px;
-            margin-bottom: 2rem;
-            border: 1px solid var(--border-color);
-        }
-
-        .payment-iframe-container {
-            width: 100%;
-            height: 600px;
-            border-radius: 12px;
-            box-shadow: var(--shadow-lg);
-            margin-bottom: 2rem;
-            overflow: hidden;
-        }
-
-        .payment-iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        /* License Display */
-        .license-display {
-            display: none;
-            background: linear-gradient(135deg, #10b981, #059669);
-            color: white;
-            padding: 2rem;
-            border-radius: 12px;
-            margin-top: 2rem;
-            text-align: center;
+        .license-section.show {
+            display: block;
         }
 
         .license-key {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 1.5rem;
+            background: #1a1a2e;
+            padding: 0.8rem;
             border-radius: 8px;
-            font-family: 'JetBrains Mono', 'Fira Code', monospace;
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin: 1.5rem 0;
-            word-break: break-all;
-            border: 2px dashed rgba(255, 255, 255, 0.3);
+            border: 1px solid var(--primary);
+            margin: 0.5rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .copy-btn {
-            background: rgba(255, 255, 255, 0.2);
+            background: var(--primary);
             color: white;
-            padding: 0.75rem 1.5rem;
             border: none;
-            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
             cursor: pointer;
-            font-size: 0.95rem;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            margin-top: 1rem;
+            font-size: 0.9rem;
         }
 
-        .copy-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
+        /* Payment Modal */
+        .payment-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .payment-modal.show {
+            display: flex;
+        }
+
+        .payment-content {
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 20px;
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 2rem;
+            cursor: pointer;
+        }
+
+        .payment-iframe {
+            width: 800px;
+            height: 600px;
+            border: none;
+            border-radius: 10px;
         }
 
         /* Contact Section */
-        .contact-section {
-            background: var(--darker-bg);
-            padding: 4rem 0;
+        .contact {
+            padding: 3rem 0;
+            background: var(--bg-card);
+        }
+
+        .contact-content {
             text-align: center;
         }
 
-        .contact-section h3 {
-            font-size: 2rem;
-            color: var(--text-primary);
-            margin-bottom: 3rem;
-            font-weight: 600;
-        }
-
-        .contact-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-        }
-
-        .contact-card {
-            background: var(--card-bg);
-            padding: 2.5rem;
-            border-radius: 16px;
-            border: 1px solid var(--border-color);
-            transition: all 0.3s ease;
-        }
-
-        .contact-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .contact-card h4 {
-            color: var(--text-primary);
-            margin-bottom: 1rem;
-            font-weight: 600;
-        }
-
-        .contact-card p {
-            color: var(--text-muted);
-            margin-bottom: 2rem;
-        }
-
-        .whatsapp-btn {
-            background: #25D366;
-            color: white;
-            padding: 1rem 2rem;
-            text-decoration: none;
-            border-radius: 12px;
-            font-size: 1rem;
-            font-weight: 600;
+        .whatsapp-link {
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 1rem;
+            padding: 1rem 2rem;
+            background: #25d366;
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
             transition: all 0.3s ease;
-            box-shadow: var(--shadow-md);
+            margin: 1rem;
         }
 
-        .whatsapp-btn:hover {
-            background: #128C7E;
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
+        .whatsapp-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3);
         }
 
-        /* CTA Section */
-        .cta {
-            background: var(--gradient-dark);
-            padding: 6rem 0;
-            text-align: center;
+        .custom-script-section {
+            margin-top: 3rem;
+            padding: 2rem;
+            background: var(--bg-dark);
+            border-radius: 20px;
+            border: 1px solid rgba(99, 102, 241, 0.2);
         }
 
-        .cta h2 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: var(--text-primary);
-            letter-spacing: -0.02em;
+        /* About Section */
+        .about {
+            padding: 5rem 0;
         }
 
-        .cta p {
-            font-size: 1.125rem;
-            color: var(--text-muted);
-            margin-bottom: 3rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .about-image {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            color: white;
+            margin: 0 auto;
+        }
+
+        .about-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #cbd5e1;
         }
 
         /* Footer */
-        footer {
-            background: var(--darker-bg);
-            color: var(--text-muted);
-            padding: 3rem 0;
+        .footer {
+            background: var(--bg-dark);
+            padding: 2rem 0;
             text-align: center;
-            border-top: 1px solid var(--border-color);
-        }
-
-        /* Alert Styles */
-        .alert {
-            padding: 1rem;
-            margin-bottom: 1rem;
-            border-radius: 8px;
-            font-weight: 500;
-            border: 1px solid;
-        }
-
-        .alert-success {
-            background: rgba(16, 185, 129, 0.1);
-            color: #10b981;
-            border-color: rgba(16, 185, 129, 0.2);
-        }
-
-        .alert-error {
-            background: rgba(239, 68, 68, 0.1);
-            color: #ef4444;
-            border-color: rgba(239, 68, 68, 0.2);
+            color: #64748b;
         }
 
         /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
         @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(20px);
             }
             to {
                 opacity: 1;
-                transform: translateY(0);
             }
         }
 
-        @keyframes slideInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        /* Floating Particles */
+        .particle {
+            position: absolute;
+            background: var(--primary);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float 6s ease-in-out infinite;
         }
 
-        /* Responsive Design */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        /* Responsive */
         @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-            
-            .hero h2 {
-                font-size: 1.25rem;
-            }
-            
             .nav-links {
                 display: none;
             }
-            
-            .features-grid, .scripts-grid {
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .about-content {
                 grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
             }
 
             .scripts-grid {
-                gap: 2rem;
+                grid-template-columns: 1fr;
             }
 
-            .modal-content {
-                margin: 5% auto;
-                width: 95%;
-                padding: 1.5rem;
-            }
-
-            .payment-iframe-container {
+            .payment-iframe {
+                width: 100%;
                 height: 500px;
             }
-
-            .container {
-                padding: 0 1rem;
-            }
-
-            .hero {
-                padding: 4rem 0;
-            }
-
-            .features, .scripts-section {
-                padding: 4rem 0;
-            }
-        }
-
-        /* Scrollbar Styles */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: var(--darker-bg);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--border-color);
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--card-hover);
-        }
-
-        /* Selection */
-        ::selection {
-            background: rgba(99, 102, 241, 0.3);
-            color: var(--text-primary);
         }
     </style>
 </head>
 <body>
-    <header>
-        <nav class="container">
-            <a href="#" class="logo" onclick="showSection('home')">Araby Scripts</a>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">ArabyScripts</div>
             <ul class="nav-links">
-                <li><a onclick="showSection('home')">Home</a></li>
-                <li><a onclick="showSection('scripts')">Scripts</a></li>
-                <li><a onclick="showSection('about')">About</a></li>
-                <li><a onclick="openWhatsApp()">Contact</a></li>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#scripts">Scripts</a></li>
+                <li><a href="#contact">Contact</a></li>
             </ul>
-        </nav>
-    </header>
-
-    <main>
-        <!-- Home Section -->
-        <div id="home" class="section active">
-            <section class="hero">
-                <div class="container">
-                    <div class="hero-content">
-                        <h1>Araby Scripts</h1>
-                        <h2>Premium Automation Solutions</h2>
-                        <p>Discover professional-grade automation scripts crafted by expert developers. From booking systems to web automation tools, we provide reliable, well-documented solutions that save time and elevate your projects.</p>
-                    </div>
-                </div>
-            </section>
-
-            <section class="cta">
-                <div class="container">
-                    <h2>Ready to Automate?</h2>
-                    <p>Browse our collection of premium scripts and transform your workflow</p>
-                    <button class="btn" onclick="showSection('scripts')">
-                        <i class="fas fa-rocket"></i>
-                        Explore Scripts
-                    </button>
-                </div>
-            </section>
         </div>
+    </nav>
 
-        <!-- About Section -->
-        <div id="about" class="section">
-            <section class="features">
-                <div class="container">
-                    <button class="back-btn" onclick="showSection('home')">
-                        <i class="fas fa-arrow-left"></i> Back to Home
-                    </button>
-                    <h2>Why Choose Araby Scripts?</h2>
-                    <p class="features-subtitle">We deliver enterprise-grade automation solutions with unmatched quality and support</p>
-                    <div class="features-grid">
-                        <div class="feature-card">
-                            <div class="feature-icon">
-                                <i class="fas fa-code"></i>
-                            </div>
-                            <h3>Premium Quality</h3>
-                            <p>Every script is professionally written, thoroughly tested, and optimized for performance. We maintain enterprise-level coding standards to ensure maximum reliability and efficiency.</p>
-                        </div>
-                        
-                        <div class="feature-card">
-                            <div class="feature-icon">
-                                <i class="fas fa-shield-alt"></i>
-                            </div>
-                            <h3>Secure & Reliable</h3>
-                            <p>Built with security-first approach and industry best practices. Each script undergoes comprehensive testing to handle real-world scenarios and edge cases.</p>
-                        </div>
-                        
-                        <div class="feature-card">
-                            <div class="feature-icon">
-                                <i class="fas fa-book-open"></i>
-                            </div>
-                            <h3>Complete Documentation</h3>
-                            <p>Comprehensive guides, video tutorials, and step-by-step instructions included. Get up and running quickly with detailed setup and customization documentation.</p>
-                        </div>
-                        
-                        <div class="feature-card">
-                            <div class="feature-icon">
-                                <i class="fas fa-headset"></i>
-                            </div>
-                            <h3>Expert Support</h3>
-                            <p>Direct access to our development team for technical support and guidance. We're committed to your success with personalized assistance.</p>
-                        </div>
-                        
-                        <div class="feature-card">
-                            <div class="feature-icon">
-                                <i class="fas fa-sync-alt"></i>
-                            </div>
-                            <h3>Lifetime Updates</h3>
-                            <p>Stay current with the latest technologies and security patches. All customers receive free updates and improvements for life.</p>
-                        </div>
-                        
-                        <div class="feature-card">
-                            <div class="feature-icon">
-                                <i class="fas fa-dollar-sign"></i>
-                            </div>
-                            <h3>Exceptional Value</h3>
-                            <p>Professional-grade automation at competitive prices. Save thousands of development hours with our ready-to-deploy solutions.</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">ArabyScripts</h1>
+            <p class="hero-subtitle">Automation Scripts for Modern Websites</p>
+            <p class="hero-description">
+                Professional automation scripts that help websites become faster and more efficient.
+                Specializing in auto-booking systems and website automation solutions.
+            </p>
+            <div class="cta-buttons">
+                <a href="#scripts" class="btn btn-primary">
+                    <i class="fas fa-code"></i> View My Scripts
+                </a>
+                <a href="#contact" class="btn btn-secondary">
+                    <i class="fas fa-envelope"></i> Get In Contact
+                </a>
+            </div>
         </div>
+    </section>
 
-        <!-- Scripts Section -->
-<div id="scripts" class="section">
-            <section class="scripts-section">
-                <div class="container">
-                    <button class="back-btn" onclick="showSection('home')">
-                        <i class="fas fa-arrow-left"></i> Back to Home
-                    </button>
-                    <div class="scripts-header">
-                        <h2>Premium Scripts Collection</h2>
-                        <p class="features-subtitle">Professional automation solutions for modern businesses</p>
-                    </div>
-                    
-                    <div class="scripts-grid">
-                        <!-- Script 1: BLS Auto Booking -->
-                        <div class="script-card">
-                            <div class="script-price">10,000 EGP</div>
-                            <div class="script-content">
-                                <h3>BLS Auto Booking Appointment Full Package</h3>
-                                <p><strong>Features:</strong><br>
-                                1- Manage user profiles/auto login<br>
-                                2- Auto category<br>
-                                3- Auto photo upload<br>
-                                4- Auto choose family trigger button and members 1-5<br>
-                                5- Auto date and time slot<br>
-                                6- Auto OTP Gmail/Outlook</p>
-                                
-                                <div class="script-video">
-                                    <iframe 
-                                        width="100%" 
-                                        height="200" 
-                                        src="https://player.vimeo.com/video/1097360301" 
-                                        title="BLS Auto Booking Script Demo"
-                                        frameborder="0" 
-                                        allow="autoplay; fullscreen; picture-in-picture" 
-                                        allowfullscreen
-                                        style="border-radius: 10px;">
-                                    </iframe>
-                                </div>
-                                
-                                <div class="purchase-section">
-                                    <h4>Purchase & Download</h4>
-                                    <button class="purchase-btn" onclick="openPaymentModal('bls_script', 'BLS Auto Booking Script', 10000)">
-                                        <i class="fas fa-shopping-cart"></i>
-                                        Buy Now - 10,000 EGP
-                                    </button>
-                                    
-                                    <div class="license-section">
-                                        <h4>Already Purchased? Enter License Key</h4>
-                                        <input type="text" class="license-input" id="license_bls_script" placeholder="Enter your license key...">
-                                        <button class="download-btn" onclick="downloadScript('bls_script')">
-                                            <i class="fas fa-download"></i>
-                                            Download Script
-                                        </button>
-                                        <div id="message_bls_script"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Script 2: VFS Auto Booking -->
-                        <div class="script-card">
-                            <div class="script-price">10,000 EGP</div>
-                            <div class="script-content">
-                                <h3>VFS Auto Booking Appointment Full Package</h3>
-                                <p><strong>Features:</strong><br>
-                                1- Manage user profiles/auto login<br>
-                                2- Auto date and time slot<br>
-                                3- Auto choose the month you need<br>
-                                4- Auto choose the date you need<br>
-                                5- Auto continue booking to the payment<br>
-                                6- Played on all vfs sites</p>
-                                
-                                <div class="script-video">
-                                    <iframe 
-                                        width="100%" 
-                                        height="200" 
-                                        src="https://player.vimeo.com/video/1097359440" 
-                                        title="VFS Auto Booking Script Demo"
-                                        frameborder="0" 
-                                        allow="autoplay; fullscreen; picture-in-picture" 
-                                        allowfullscreen
-                                        style="border-radius: 10px;">
-                                    </iframe>
-                                </div>
-                                
-                                <div class="purchase-section">
-                                    <h4>Purchase & Download</h4>
-                                    <button class="purchase-btn" onclick="openPaymentModal('vfs_script', 'VFS Auto Booking Script', 10000)">
-                                        <i class="fas fa-shopping-cart"></i>
-                                        Buy Now - 10,000 EGP
-                                    </button>
-                                    
-                                    <div class="license-section">
-                                        <h4>Already Purchased? Enter License Key</h4>
-                                        <input type="text" class="license-input" id="license_vfs_script" placeholder="Enter your license key...">
-                                        <button class="download-btn" onclick="downloadScript('vfs_script')">
-                                            <i class="fas fa-download"></i>
-                                            Download Script
-                                        </button>
-                                        <div id="message_vfs_script"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
-    </main>
-
-    <!-- Contact Section -->
-    <section class="contact-section">
+    <!-- Scripts Section -->
+    <section id="scripts" class="scripts">
         <div class="container">
-            <h3>Need Help or Custom Scripts?</h3>
-            <div class="contact-grid">
-                <div class="contact-card">
-                    <h4>Got a Problem?</h4>
-                    <p>Contact us if you have any issues with your scripts or need technical support</p>
-                    <a href="https://wa.me/201013887111" class="whatsapp-btn" target="_blank">
-                        <i class="fab fa-whatsapp"></i>
-                        Get Support
-                    </a>
+            <h2 class="section-title">Our Scripts</h2>
+            <div class="scripts-grid">
+                <!-- BLS Auto Booking Script -->
+                <div class="script-card">
+                    <div class="script-content">
+                        <div class="script-price">10,000 EGP</div>
+                        <h3 class="script-title">BLS Auto Booking Appointment Full Package</h3>
+                        <div class="script-description">
+                            <ul>
+                                <li>Manage user profiles/auto login</li>
+                                <li>Auto category</li>
+                                <li>Auto photo upload</li>
+                                <li>Auto choose family trigger button and members 1-5</li>
+                                <li>Auto date and time slot</li>
+                                <li>Auto OTP Gmail/Outlook</li>
+                            </ul>
+                        </div>
+<!-- ADD THIS LINE -->
+<div class="separator-line"></div>
+<div class="script-video">
+                        <iframe src="https://player.vimeo.com/video/1097360301" allowfullscreen></iframe>
+                    </div>
+<!-- ADD THIS LINE -->
+<div class="separator-line"></div>
+                        <div class="script-actions">
+                            <a href="#" class="download-btn" onclick="openDownload('bls')">
+                                <i class="fas fa-download"></i> Download
+                            </a>
+                            <button class="purchase-btn" onclick="openPayment('bls')">
+                                <i class="fas fa-credit-card"></i> Purchase
+                            </button>
+                        </div>
+                        <div id="bls-license" class="license-section">
+                            <h4>Your License Key:</h4>
+                            <div class="license-key">
+                                <span id="bls-key">BLS-XXXX-XXXX-XXXX</span>
+                                <button class="copy-btn" onclick="copyKey('bls-key')">Copy</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                
-                <div class="contact-card">
-                    <h4>Need Custom Script?</h4>
-                    <p>We can create custom automation scripts for any website or application you need</p>
-                    <a href="https://wa.me/201013887111" class="whatsapp-btn" target="_blank">
-                        <i class="fab fa-whatsapp"></i>
-                        Request Custom Script
+
+                <!-- VFS Auto Booking Script -->
+                <div class="script-card">
+                    <div class="script-content">
+                        <div class="script-price">10,000 EGP</div>
+                        <h3 class="script-title">VFS Auto Booking Appointment Full Package</h3>
+                        <div class="script-description">
+                            <ul>
+                                <li>Manage user profiles/auto login</li>
+                                <li>Auto date and time slot</li>
+                                <li>Auto choose the month you need</li>
+                                <li>Auto choose the date you need</li>
+                                <li>Auto continue booking to the payment</li>
+                                <li>Played on all VFS sites</li>
+                            </ul>
+                        </div>
+<!-- ADD THIS LINE -->
+<div class="separator-line"></div>
+<div class="script-video">
+                        <iframe src="https://player.vimeo.com/video/1097359440" allowfullscreen></iframe>
+                    </div>
+<!-- ADD THIS LINE -->
+<div class="separator-line"></div>
+                        <div class="script-actions">
+                            <a href="#" class="download-btn" onclick="openDownload('vfs')">
+                                <i class="fas fa-download"></i> Download
+                            </a>
+                            <button class="purchase-btn" onclick="openPayment('vfs')">
+                                <i class="fas fa-credit-card"></i> Purchase
+                            </button>
+                        </div>
+                        <div id="vfs-license" class="license-section">
+                            <h4>Your License Key:</h4>
+                            <div class="license-key">
+                                <span id="vfs-key">VFS-XXXX-XXXX-XXXX</span>
+                                <button class="copy-btn" onclick="copyKey('vfs-key')">Copy</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Custom Script Section -->
+            <div class="custom-script-section">
+                <h3 style="text-align: center; margin-bottom: 1rem;">Need a Custom Script?</h3>
+                <p style="text-align: center; color: #94a3b8;">We can create custom automation scripts tailored to your specific needs.</p>
+                <div style="text-align: center; margin-top: 1rem;">
+                    <a href="https://wa.me/01013887111" class="whatsapp-link" target="_blank">
+                        <i class="fab fa-whatsapp"></i> Contact Us on WhatsApp
                     </a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Payment Modal -->
-    <div id="paymentModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closePaymentModal()">&times;</span>
-            <div class="payment-form">
-                <h3>Complete Your Purchase</h3>
-                <div class="payment-details">
-                    <h4 id="scriptTitle">Script Purchase</h4>
-                    <p><strong>Price: </strong><span id="scriptPrice">$0</span> EGP</p>
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-content">
+                <div class="about-image">
+                    <i class="fas fa-user-cog"></i>
                 </div>
-                
-                <div class="payment-iframe-container">
-                    <iframe id="paymentIframe" class="payment-iframe" src="about:blank"></iframe>
-                </div>
-                
-                <div class="license-display" id="licenseDisplay">
-                    <h4>🎉 Payment Successful!</h4>
-                    <p>Your license key has been generated:</p>
-                    <div class="license-key" id="licenseKey"></div>
-                    <button class="copy-btn" onclick="copyLicenseKey()">
-                        <i class="fas fa-copy"></i>
-                        Copy License Key
-                    </button>
-                    <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.8;">
-                        Save this license key - you'll need it to download your script!
+                <div class="about-text">
+                    <p>
+                        I'm a professional programmer specialized in creating automation scripts for websites.
+                        My expertise lies in developing efficient solutions that help websites automate their processes,
+                        improve user experience, and increase operational speed.
+                    </p>
+                    <p>
+                        With years of experience in web automation, I focus on creating scripts that solve real-world
+                        problems for businesses and individuals. My scripts are designed to be reliable, secure, and
+                        easy to use while maintaining the highest standards of performance.
+                    </p>
+                    <p>
+                        Whether you need auto-booking systems, form automation, or custom web scripts, I'm here to
+                        help you streamline your digital processes and save valuable time.
                     </p>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
-    <!-- Footer -->
-    <footer>
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
         <div class="container">
-            <p>&copy; 2025 Araby Scripts. All rights reserved. | Premium Automation Solutions</p>
+            <h2 class="section-title">Contact Us</h2>
+            <div class="contact-content">
+                <p style="margin-bottom: 2rem; font-size: 1.2rem; color: #94a3b8;">Have a trouble? Need support?</p>
+                <a href="https://wa.me/01013887111" class="whatsapp-link" target="_blank">
+                    <i class="fab fa-whatsapp"></i> Contact us on WhatsApp
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Payment Modal -->
+    <div id="payment-modal" class="payment-modal">
+        <div class="payment-content">
+            <button class="close-modal" onclick="closePayment()">&times;</button>
+            <iframe id="payment-iframe" class="payment-iframe" src=""></iframe>
+        </div>
+    </div>
+<!-- Download Verification Modal -->
+<div id="download-modal" class="payment-modal">
+    <div class="payment-content">
+        <button class="close-modal" onclick="closeDownload()">&times;</button>
+        <div style="padding: 2rem; text-align: center;">
+            <h3 style="color: white; margin-bottom: 1rem;">Verify Your License Key</h3>
+            <p style="color: #94a3b8; margin-bottom: 1rem;">Enter your license key to download the script</p>
+            <input type="text" id="license-input" placeholder="Enter your license key (e.g., BLS-XXXX-XXXX-XXXX)"
+                   style="padding: 1rem; margin: 1rem; width: 400px; border-radius: 8px; border: 1px solid #666;
+                          background: #1a1a2e; color: white; font-size: 1rem;">
+            <br>
+            <button onclick="verifyAndDownload()"
+                    style="padding: 1rem 2rem; background: var(--primary); color: white; border: none;
+                           border-radius: 8px; cursor: pointer; font-size: 1rem; margin-top: 1rem;">
+                Verify & Download
+            </button>
+            <div id="verification-message" style="margin-top: 1rem; color: #f59e0b;"></div>
+        </div>
+    </div>
+</div>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 ArabyScripts - Professional Automation Scripts</p>
         </div>
     </footer>
 
     <script>
-        // Payment URL - Replace this with your actual payment link
-        const PAYMENT_URL = "https://paymob.xyz/H3HSx3rG/";
+        // License key generation system
+        const usedKeys = {
+            bls: new Set(),
+            vfs: new Set()
+        };
 
-        // Current script information
-        let currentScript = null;
+        function generateLicenseKey(type) {
+    // Add timestamp to make keys unique and traceable
+    const timestamp = Date.now().toString(36).toUpperCase();
+    const prefix = type.toUpperCase();
 
-        // Navigation functions
-        function showSection(sectionId) {
-            const sections = document.querySelectorAll('.section');
-            sections.forEach(section => {
-                section.classList.remove('active');
+    let key;
+    let attempts = 0;
+    do {
+        attempts++;
+        const segments = [];
+
+        // First segment: timestamp part
+        segments.push(timestamp.slice(-4));
+
+        // Second and third segments: random
+        for (let i = 0; i < 2; i++) {
+            segments.push(Math.random().toString(36).substr(2, 4).toUpperCase());
+        }
+
+        key = `${prefix}-${segments.join('-')}`;
+
+        // Prevent infinite loop
+        if (attempts > 100) {
+            console.error('Could not generate unique key');
+            break;
+        }
+    } while (usedKeys[type].has(key));
+
+    usedKeys[type].add(key);
+
+    // In a real application, you would save this to your database here
+    console.log(`Generated license key: ${key} for ${type}`);
+
+    return key;
+}
+
+        function openPayment(scriptType) {
+    const modal = document.getElementById('payment-modal');
+    const iframe = document.getElementById('payment-iframe');
+
+    // Add script type to the payment URL so your payment system knows what's being bought
+    iframe.src = `https://paymob.xyz/H3HSx3rG/?product=${scriptType}&amount=${scriptType === 'bls' ? '10000' : '10000'}`;
+    modal.classList.add('show');
+
+    // Store the script type for when payment completes
+    sessionStorage.setItem('pendingPurchase', scriptType);
+
+    // Listen for payment completion messages from the payment iframe
+    window.addEventListener('message', function(event) {
+        // This is where your payment provider will send success/failure messages
+        if (event.origin === 'https://paymob.xyz') {
+            if (event.data.status === 'success') {
+                handlePaymentSuccess(scriptType, event.data.transaction_id);
+            } else if (event.data.status === 'failed') {
+                alert('Payment failed. Please try again.');
+                closePayment();
+            }
+        }
+    });
+}
+
+        function closePayment() {
+            const modal = document.getElementById('payment-modal');
+            modal.classList.remove('show');
+            document.getElementById('payment-iframe').src = '';
+        }
+
+        function handlePaymentSuccess(scriptType, transactionId) {
+    // Only generate key if we have a transaction ID (proof of payment)
+    if (!transactionId) {
+        alert('Payment verification failed. Please contact support.');
+        return;
+    }
+
+    const licenseKey = generateLicenseKey(scriptType);
+    const keyElement = document.getElementById(`${scriptType}-key`);
+    const licenseSection = document.getElementById(`${scriptType}-license`);
+
+    // Store the purchase info (in a real app, this would be sent to your server)
+    const purchaseInfo = {
+        scriptType: scriptType,
+        licenseKey: licenseKey,
+        transactionId: transactionId,
+        purchaseDate: new Date().toISOString(),
+        customerIP: 'unknown' // You'd get this from your server
+    };
+
+    // Save to localStorage as backup (not secure, but better than nothing)
+    const purchases = JSON.parse(localStorage.getItem('purchases') || '[]');
+    purchases.push(purchaseInfo);
+    localStorage.setItem('purchases', JSON.stringify(purchases));
+
+    keyElement.textContent = licenseKey;
+    licenseSection.classList.add('show');
+
+    closePayment();
+
+    // Clear the pending purchase
+    sessionStorage.removeItem('pendingPurchase');
+
+    alert(`Payment successful! Your license key is: ${licenseKey}\n\nTransaction ID: ${transactionId}\n\nPlease save this information!`);
+}
+
+        function copyKey(keyId) {
+            const keyText = document.getElementById(keyId).textContent;
+            navigator.clipboard.writeText(keyText).then(() => {
+                alert('License key copied to clipboard!');
             });
-            
-            document.getElementById(sectionId).classList.add('active');
-            
-            // Scroll to top
-            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // WhatsApp contact
-        function openWhatsApp() {
-            window.open('https://wa.me/201013887111', '_blank');
-        }
+        // Download verification system
+function openDownload(scriptType) {
+    const modal = document.getElementById('download-modal');
+    modal.classList.add('show');
+    modal.setAttribute('data-script', scriptType);
+    document.getElementById('license-input').value = '';
+    document.getElementById('verification-message').textContent = '';
+}
 
-        // Payment modal functions
-        function openPaymentModal(scriptId, scriptName, price) {
-            document.getElementById('scriptTitle').textContent = scriptName;
-            document.getElementById('scriptPrice').textContent = price.toLocaleString();
-            
-            // Store current script info
-            currentScript = {
-                id: scriptId,
-                name: scriptName,
-                price: price
-            };
-            
-            // Load payment iframe
-            document.getElementById('paymentIframe').src = PAYMENT_URL;
-            
-            document.getElementById('paymentModal').style.display = 'block';
-            document.body.style.overflow = 'hidden';
-            
-            // Hide license display initially
-            document.getElementById('licenseDisplay').style.display = 'none';
-        }
+function closeDownload() {
+    const modal = document.getElementById('download-modal');
+    modal.classList.remove('show');
+    document.getElementById('license-input').value = '';
+    document.getElementById('verification-message').textContent = '';
+}
 
-        function closePaymentModal() {
-            document.getElementById('paymentModal').style.display = 'none';
-            document.body.style.overflow = 'auto';
-            document.getElementById('licenseDisplay').style.display = 'none';
-            document.getElementById('paymentIframe').src = 'about:blank';
-        }
+function verifyAndDownload() {
+    const key = document.getElementById('license-input').value.trim();
+    const scriptType = document.getElementById('download-modal').getAttribute('data-script');
+    const messageDiv = document.getElementById('verification-message');
 
-        // Function to show license key after successful payment
-        function showLicenseKey(licenseKey) {
-            document.getElementById('licenseKey').textContent = licenseKey;
-            document.getElementById('licenseDisplay').style.display = 'block';
-            
-            // Store the license key for this script
-            if (!window.purchasedLicenses) window.purchasedLicenses = {};
-            window.purchasedLicenses[currentScript.id] = licenseKey;
-        }
+    // Check if key is empty
+    if (!key) {
+        messageDiv.textContent = 'Please enter your license key';
+        messageDiv.style.color = '#ef4444';
+        return;
+    }
 
-        // Generate License Key Function
-        function generateLicenseKey() {
-            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-            let result = '';
-            for (let i = 0; i < 3; i++) {
-                if (i > 0) result += '-';
-                for (let j = 0; j < 6; j++) {
-                    result += chars.charAt(Math.floor(Math.random() * chars.length));
-                }
-            }
-            return result;
-        }
+    // Check key format
+    const expectedPrefix = scriptType.toUpperCase();
+    if (!key.startsWith(expectedPrefix + '-') || key.length < 15) {
+        messageDiv.textContent = 'Invalid license key format';
+        messageDiv.style.color = '#ef4444';
+        return;
+    }
 
-        function copyLicenseKey() {
-            const licenseKey = document.getElementById('licenseKey').textContent;
-            navigator.clipboard.writeText(licenseKey).then(() => {
-                const btn = document.querySelector('.copy-btn');
-                const originalText = btn.innerHTML;
-                btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
-                btn.style.background = '#28a745';
-                setTimeout(() => {
-                    btn.innerHTML = originalText;
-                    btn.style.background = '';
-                }, 2000);
-            });
-        }
+    // Check if this key was actually generated (basic check)
+    if (!usedKeys[scriptType].has(key)) {
+        messageDiv.textContent = 'License key not found or invalid';
+        messageDiv.style.color = '#ef4444';
+        return;
+    }
 
-        // Download script function
-        function downloadScript(scriptId) {
-            const licenseInput = document.getElementById(`license_${scriptId}`);
-            const messageDiv = document.getElementById(`message_${scriptId}`);
-            const licenseKey = licenseInput.value.trim();
-            
-            // Clear previous messages
-            messageDiv.innerHTML = '';
-            
-            if (!licenseKey) {
-                showMessage(messageDiv, 'Please enter your license key', 'error');
-                return;
-            }
-            
-            // Validate license key format
-            const licensePattern = /^[A-Z0-9]{6}-[A-Z0-9]{6}-[A-Z0-9]{6}$/;
-            if (!licensePattern.test(licenseKey)) {
-                showMessage(messageDiv, 'Invalid license key format. Please use format: ABC123-DEF456-GHI789', 'error');
-                return;
-            }
-            
-            // Check if license key is valid
-            if (validateLicenseKey(scriptId, licenseKey)) {
-                showMessage(messageDiv, 'License key validated successfully! Starting download...', 'success');
-                
-                // Simulate download process
-                setTimeout(() => {
-                    startDownload(scriptId);
-                }, 1500);
-            } else {
-                showMessage(messageDiv, 'Invalid license key. Please check your key and try again.', 'error');
-            }
-        }
+    // Success - allow download
+    messageDiv.textContent = 'License verified! Starting download...';
+    messageDiv.style.color = '#10b981';
 
-        function validateLicenseKey(scriptId, licenseKey) {
-            // Check if license was purchased in current session
-            if (window.purchasedLicenses && window.purchasedLicenses[scriptId] === licenseKey) {
-                return true;
-            }
-            
-            // Mock validation for demo
-            const validKeys = {
-                'bls_script': ['ABC123-DEF456-GHI789', 'XYZ789-UVW456-RST123'],
-                'vfs_script': ['LMN456-OPQ789-STU012', 'VWX345-YZA678-BCD901']
-            };
-            
-            return validKeys[scriptId] && validKeys[scriptId].includes(licenseKey);
-        }
+    // Here you would normally redirect to your server download endpoint
+    // For now, we'll just show success
+    setTimeout(() => {
+        alert(`Download started for ${scriptType.toUpperCase()} script!`);
+        closeDownload();
+    }, 1500);
+}
 
-        function startDownload(scriptId) {
-            const scriptFiles = {
-                'bls_script': {
-                    name: 'BLS_Auto_Booking_Script.zip',
-                    content: createMockZipContent('BLS Auto Booking Script')
-                },
-                'vfs_script': {
-                    name: 'VFS_Auto_Booking_Script.zip',
-                    content: createMockZipContent('VFS Auto Booking Script')
-                }
-            };
-            
-            if (scriptFiles[scriptId]) {
-                const blob = new Blob([scriptFiles[scriptId].content], { type: 'application/zip' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = scriptFiles[scriptId].name;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-                
-                const messageDiv = document.getElementById(`message_${scriptId}`);
-                showMessage(messageDiv, 'Download started successfully! Check your downloads folder.', 'success');
-            }
-        }
-
-        function createMockZipContent(scriptName) {
-            return `Mock ${scriptName} Package
-            
-This is a demonstration file. In a real implementation, this would be:
-- A compressed ZIP file containing the actual script files
-- Documentation and installation guides
-- Video tutorials
-- Configuration files
-- License information
-
-Thank you for your purchase!
-Contact: https://wa.me/201013887111 for support.`;
-        }
-
-        function showMessage(element, message, type) {
-            element.innerHTML = `<div class="alert alert-${type}">${message}</div>`;
-            
-            if (type === 'success') {
-                setTimeout(() => {
-                    element.innerHTML = '';
-                }, 5000);
-            }
-        }
-
-        // Simulate payment completion after 3 seconds (for demo)
-        function simulatePaymentSuccess() {
-            if (currentScript) {
-                const licenseKey = generateLicenseKey();
-                showLicenseKey(licenseKey);
-            }
-        }
-
-        // Smooth scrolling for internal links
+        // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
-                    target.scrollIntoView({ behavior: 'smooth' });
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
                 }
             });
         });
 
-        // Close modal when clicking outside
-        window.onclick = function(event) {
-            const modal = document.getElementById('paymentModal');
-            if (event.target === modal) {
-                closePaymentModal();
-            }
-        }
-
-        // Escape key closes modal
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape') {
-                closePaymentModal();
+        // Navbar background on scroll
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 100) {
+                navbar.style.background = 'rgba(15, 15, 35, 0.98)';
+            } else {
+                navbar.style.background = 'rgba(15, 15, 35, 0.95)';
             }
         });
 
-        // Add loading animation to buttons
-        document.querySelectorAll('.btn, .purchase-btn, .download-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                this.style.transform = 'scale(0.98)';
-                setTimeout(() => {
-                    this.style.transform = '';
-                }, 150);
-            });
-        });
-
-        // Animate cards on scroll
+        // Animate elements on scroll
         const observerOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -50px 0px'
@@ -1376,17 +1030,86 @@ Contact: https://wa.me/201013887111 for support.`;
             });
         }, observerOptions);
 
-        document.querySelectorAll('.feature-card, .script-card').forEach(card => {
+        // Observe all script cards
+        document.querySelectorAll('.script-card').forEach(card => {
             card.style.opacity = '0';
             card.style.transform = 'translateY(30px)';
-            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            card.style.transition = 'all 0.6s ease';
             observer.observe(card);
         });
 
-        // Initialize on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            if (!window.purchasedLicenses) {
-                window.purchasedLicenses = {};
+        // Create floating particles
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+
+            const size = Math.random() * 5 + 2;
+            particle.style.width = size + 'px';
+            particle.style.height = size + 'px';
+            particle.style.left = Math.random() * window.innerWidth + 'px';
+            particle.style.top = window.innerHeight + 'px';
+            particle.style.opacity = Math.random() * 0.5 + 0.2;
+
+            document.body.appendChild(particle);
+
+            const duration = Math.random() * 3000 + 2000;
+            particle.animate([
+                { transform: 'translateY(0px)', opacity: particle.style.opacity },
+                { transform: `translateY(-${window.innerHeight + 100}px)`, opacity: 0 }
+            ], {
+                duration: duration,
+                easing: 'linear'
+            }).onfinish = () => {
+                particle.remove();
+            };
+        }
+
+        // Create particles periodically
+        setInterval(createParticle, 300);
+
+        // Add typing effect to hero title
+        function typeWriter(element, text, speed = 100) {
+            let i = 0;
+            element.innerHTML = '';
+
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                }
+            }
+            type();
+        }
+
+        // Initialize typing effect when page loads
+        window.addEventListener('load', () => {
+            const heroTitle = document.querySelector('.hero-title');
+            const originalText = heroTitle.textContent;
+            typeWriter(heroTitle, originalText, 150);
+        });
+// Prevent accidental page closing during payment
+window.addEventListener('beforeunload', function(e) {
+    const paymentModal = document.getElementById('payment-modal');
+    const downloadModal = document.getElementById('download-modal');
+
+    if (paymentModal.classList.contains('show') || downloadModal.classList.contains('show')) {
+        e.preventDefault();
+        e.returnValue = '';
+        return '';
+    }
+});
+
+// Close download modal when clicking outside
+document.getElementById('download-modal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        closeDownload();
+    }
+});
+        // Close modal when clicking outside
+        document.getElementById('payment-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closePayment();
             }
         });
     </script>
