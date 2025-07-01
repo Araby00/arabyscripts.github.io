@@ -628,7 +628,7 @@
     <!-- Hero Section -->
     <section id="home" class="hero">
         <div class="hero-content">
-            <h1 class="hero-title">ArabyScripts</h1>
+            <h1 class="hero-title"></h1>
             <p class="hero-subtitle">Automation Scripts for Modern Websites</p>
             <p class="hero-description">
                 Professional automation scripts that help websites become faster and more efficient.
@@ -1083,11 +1083,14 @@ function verifyAndDownload() {
         }
 
         // Initialize typing effect when page loads
-        window.addEventListener('load', () => {
-            const heroTitle = document.querySelector('.hero-title');
-            const originalText = heroTitle.textContent;
-            typeWriter(heroTitle, originalText, 150);
-        });
+window.addEventListener('load', () => {
+    const heroTitle = document.querySelector('.hero-title');
+    
+    // Add a small delay before typing starts
+    setTimeout(() => {
+        typeWriter(heroTitle, 'ArabyScripts', 150);
+    }, 300); // Wait 0.5 seconds before starting to type
+});
 // Prevent accidental page closing during payment
 window.addEventListener('beforeunload', function(e) {
     const paymentModal = document.getElementById('payment-modal');
