@@ -24,6 +24,13 @@
     font-weight: normal;
     font-style: normal;
 }
+
+@font-face {
+    font-family: 'HelpMe';
+    src: url('HelpMe.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
         :root {
             --primary: #6366f1;
             --primary-dark: #4f46e5;
@@ -296,14 +303,36 @@
         }
 
         .section-title {
-            text-align: center;
-            font-size: 3rem;
-            margin-bottom: 3rem;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
+    font-family: 'HelpMe', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+    font-size: 3rem;
+    margin-bottom: 3rem;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    position: relative;
+    text-shadow: 0 0 30px rgba(99, 102, 241, 0.5);
+}
+
+.section-title::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0.1) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shine 3s ease-in-out infinite;
+}
+
+@keyframes shine {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 1; }
+}
 
         .scripts-grid {
             display: grid;
@@ -374,12 +403,34 @@
         }
 
         .script-price {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: var(--accent);
-            margin-bottom: 1rem;
-            text-align: center;
-        }
+    font-family: 'HelpMe', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 2rem;
+    font-weight: bold;
+    background: linear-gradient(135deg, #10b981 0%, #34d399 50%, #6ee7b7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 1rem;
+    text-align: center;
+    position: relative;
+    text-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+}
+
+.script-price::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    animation: price-shine 2s ease-in-out infinite;
+}
+
+@keyframes price-shine {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
 
         .script-actions {
             display: flex;
