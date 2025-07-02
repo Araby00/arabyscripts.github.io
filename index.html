@@ -11,7 +11,12 @@
             padding: 0;
             box-sizing: border-box;
         }
-
+@font-face {
+    font-family: 'Storm Gust';
+    src: url('Storm Gust.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
         :root {
             --primary: #6366f1;
             --primary-dark: #4f46e5;
@@ -81,13 +86,14 @@
         }
 
         .logo {
-            font-size: 1.8rem;
-            font-weight: bold;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
+    font-family: 'Storm Gust', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1.8rem;
+    font-weight: bold;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
 
         .nav-links {
             display: flex;
@@ -153,6 +159,7 @@
         }
 
         .hero-title {
+    font-family: 'Storm Gust', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 4rem;
     font-weight: 700;
     margin-bottom: 1rem;
@@ -160,8 +167,7 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    /* Remove the slideInLeft animation since we're doing typing animation */
-    min-height: 1.2em; /* This keeps the space even when text is empty */
+    min-height: 1.2em;
 }
         /* Add blinking cursor for typing effect */
 .hero-title::after {
