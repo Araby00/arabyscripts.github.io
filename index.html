@@ -17,6 +17,13 @@
     font-weight: normal;
     font-style: normal;
 }
+
+@font-face {
+    font-family: 'Wyshper';
+    src: url('Wyshper.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
         :root {
             --primary: #6366f1;
             --primary-dark: #4f46e5;
@@ -86,13 +93,14 @@
         }
 
         .logo {
-    font-family: 'Storm Gust', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 1.8rem;
+    font-family: 'Wyshper', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 2.2rem;
     font-weight: bold;
     background: var(--gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    letter-spacing: 2px;
 }
 
         .nav-links {
@@ -637,7 +645,7 @@
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
-            <div class="logo">ArabyScripts</div>
+            <div class="logo">AS</div>
             <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#about">About</a></li>
