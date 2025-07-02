@@ -420,22 +420,26 @@
     content: '';
     position: absolute;
     top: 0;
-    left: -100%;
-    width: 100%;
+    left: -200%;
+    width: 200%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+    background: linear-gradient(110deg, transparent 20%, rgba(255,255,255,0.8) 50%, transparent 80%);
     -webkit-background-clip: text;
--webkit-text-fill-color: transparent;
-background-clip: text;
-    animation: price-shine 3s ease-in-out infinite;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: price-shine 2.5s linear infinite;
 }
 
 @keyframes price-shine {
-    0% { left: -50%; opacity: 0; }
-    50% { left: 0%; opacity: 1; }
-    100% { left: 50%; opacity: 0; }
+    0% { 
+        left: -200%;
+        transform: skewX(-20deg);
+    }
+    100% { 
+        left: 200%;
+        transform: skewX(-20deg);
+    }
 }
-
         .script-actions {
             display: flex;
             gap: 1rem;
@@ -444,32 +448,40 @@ background-clip: text;
         }
 
         .download-btn, .purchase-btn {
-            padding: 0.8rem 1.5rem;
-            border: none;
-            border-radius: 25px;
-            font-weight: 600;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: all 0.3s ease;
-        }
+    font-family: 'HelpMe', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1.1rem;
+    font-weight: normal;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+    background: none;
+    border: none;
+    padding: 0.5rem 1rem;
+    margin: 0 1rem;
+}
 
-        .download-btn {
-            background: var(--secondary);
-            color: white;
-        }
+.download-btn {
+    color: #0ea5e9;
+}
 
-        .purchase-btn {
-            background: var(--gradient);
-            color: white;
-        }
+.purchase-btn {
+    color: #f59e0b;
+}
 
-        .download-btn:hover, .purchase-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
-        }
+.download-btn:hover {
+    color: #38bdf8;
+    transform: scale(1.05);
+    text-shadow: 0 0 10px rgba(14, 165, 233, 0.5);
+}
+
+.purchase-btn:hover {
+    color: #fbbf24;
+    transform: scale(1.05);
+    text-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
+}
 
         .license-section {
             margin-top: 1rem;
