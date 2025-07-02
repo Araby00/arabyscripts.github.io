@@ -423,13 +423,17 @@
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-    animation: price-shine 2s ease-in-out infinite;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+    -webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+    animation: price-shine 3s ease-in-out infinite;
 }
 
 @keyframes price-shine {
-    0% { left: -100%; }
-    100% { left: 100%; }
+    0% { left: -50%; opacity: 0; }
+    50% { left: 0%; opacity: 1; }
+    100% { left: 50%; opacity: 0; }
 }
 
         .script-actions {
