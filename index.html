@@ -1061,12 +1061,6 @@ function verifyAndDownload() {
     const scriptType = document.getElementById('download-modal').getAttribute('data-script');
     const messageDiv = document.getElementById('verification-message');
 
-    // Check if key is empty
-    if (!key) {
-        messageDiv.textContent = 'Please enter your license key';
-        messageDiv.style.color = '#ef4444';
-        return;
-    }
 
     // Check key format
     const expectedPrefix = scriptType.toUpperCase();
