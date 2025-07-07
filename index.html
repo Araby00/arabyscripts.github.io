@@ -752,34 +752,24 @@
     transform: scale(1.05) !important;
     text-shadow: 0 0 10px rgba(16, 185, 129, 0.5) !important;
 }
-        /* 3D Card Flip Animation */
-.payment-modal, .download-modal {
-    perspective: 1200px;
-}
-
+        /* Remove the old CSS and add this */
 .payment-content {
-    transform-style: preserve-3d;
-    transition: all 0.6s ease;
-    transform: rotateY(-90deg) translateZ(-200px);
+    transition: transform 0.8s ease;
+    transform: rotateX(-90deg);
+    transform-origin: bottom;
     opacity: 0;
 }
 
 .payment-modal.show .payment-content,
 .download-modal.show .payment-content {
-    transform: rotateY(0deg) translateZ(0px);
+    transform: rotateX(0deg);
     opacity: 1;
 }
 
-/* Enhanced blur background */
-.payment-modal, .download-modal {
-    backdrop-filter: blur(0px);
-    transition: all 0.3s ease;
-}
-
+/* For blur background */
 .payment-modal.show, .download-modal.show {
     background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(15px);
 }
         
     </style>
