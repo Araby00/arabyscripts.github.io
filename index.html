@@ -1066,15 +1066,10 @@
         function openPayment(scriptType) {
     const modal = document.getElementById('payment-modal');
     modal.classList.add('show');
-    document.body.style.filter = 'blur(3px)';
-    document.querySelector('.navbar').style.filter = 'blur(3px)';
 }
-
 function closePayment() {
     const modal = document.getElementById('payment-modal');
     modal.classList.remove('show');
-    document.body.style.filter = 'none';
-    document.querySelector('.navbar').style.filter = 'none';
 }
 
         function handlePaymentSuccess(scriptType, transactionId) {
