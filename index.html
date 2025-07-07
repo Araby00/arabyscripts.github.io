@@ -756,32 +756,18 @@
 </head>
 <body>
     <script>
-    history.scrollRestoration = 'manual';
-    
-    // Custom smooth scroll animation to top on page load
-    window.addEventListener('load', function() {
-        if (window.scrollY > 0) {
-            const startY = window.scrollY;
-            const duration = 800; // 0.8 seconds
-            const startTime = performance.now();
-            
-            function animateScroll(currentTime) {
-                const elapsed = currentTime - startTime;
-                const progress = Math.min(elapsed / duration, 1);
-                
-                // Ease out animation
-                const easeOut = 1 - Math.pow(1 - progress, 3);
-                const currentY = startY * (1 - easeOut);
-                
-                window.scrollTo(0, currentY);
-                
-                if (progress < 1) {
-                    requestAnimationFrame(animateScroll);
-                }
-            }
-            
-            requestAnimationFrame(animateScroll);
-        }
+    // Force page to start from bottom, then animate to top
+    window.addEventListener('DOMContentLoaded', function() {
+        // Instantly scroll to bottom
+        window.scrollTo(0, document.body.scrollHeight);
+        
+        // Then animate to top after a tiny delay
+        setTimeout(() => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }, 100);
     });
     </script>
     <!-- Navigation -->
