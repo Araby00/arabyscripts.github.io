@@ -756,18 +756,27 @@
 </head>
 <body>
     <script>
-    // Force page to start from bottom, then animate to top
-    window.addEventListener('DOMContentLoaded', function() {
-        // Instantly scroll to bottom
-        window.scrollTo(0, document.body.scrollHeight);
-        
-        // Then animate to top after a tiny delay
-        setTimeout(() => {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        }, 100);
+    // Store scroll position before page unloads
+    window.addEventListener('beforeunload', function() {
+        sessionStorage.setItem('scrollPos', window.scrollY);
+    });
+    
+    // Restore and animate on load
+    window.addEventListener('load', function() {
+        const savedPos = sessionStorage.getItem('scrollPos');
+        if (savedPos && savedPos > 0) {
+            // Set to saved position instantly
+            window.scrollTo(0, savedPos);
+            
+            // Then animate to top
+            setTimeout(() => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            }, 100);
+        }
+        sessionStorage.removeItem('scrollPos');
     });
     </script>
     <!-- Navigation -->
