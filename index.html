@@ -1068,7 +1068,7 @@ function submitLicenseKey() {
     messageDiv.style.color = '#f59e0b';
 
     // Send to your server for verification
-    fetch('/verify-license', {
+    fetch('https://arabyscripts-license-server.glitch.me/verify-license', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
