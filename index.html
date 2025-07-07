@@ -758,13 +758,29 @@
     <script>
     history.scrollRestoration = 'manual';
     
-    // Smooth scroll to top on page load/refresh
+    // Custom smooth scroll animation to top on page load
     window.addEventListener('load', function() {
         if (window.scrollY > 0) {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
+            const startY = window.scrollY;
+            const duration = 800; // 0.8 seconds
+            const startTime = performance.now();
+            
+            function animateScroll(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                
+                // Ease out animation
+                const easeOut = 1 - Math.pow(1 - progress, 3);
+                const currentY = startY * (1 - easeOut);
+                
+                window.scrollTo(0, currentY);
+                
+                if (progress < 1) {
+                    requestAnimationFrame(animateScroll);
+                }
+            }
+            
+            requestAnimationFrame(animateScroll);
         }
     });
     </script>
