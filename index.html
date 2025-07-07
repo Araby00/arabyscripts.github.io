@@ -798,9 +798,9 @@
                             <a href="#" class="download-btn" onclick="openDownload('bls')">
                                 <i class="fas fa-download"></i> Download
                             </a>
-                            <button class="purchase-btn" onclick="openPayment('bls')">
-                                <i class="fas fa-credit-card"></i> Purchase
-                            </button>
+                            <button class="purchase-btn" onclick="openPurchaseInfo('bls')">
+    <i class="fas fa-credit-card"></i> Purchase
+</button>
                         </div>
                         <div id="bls-license" class="license-section">
                             <h4>Your License Key:</h4>
@@ -907,13 +907,6 @@
         </div>
     </section>
 
-    <!-- Payment Modal -->
-    <div id="payment-modal" class="payment-modal">
-        <div class="payment-content">
-            <button class="close-modal" onclick="closePayment()">&times;</button>
-            <iframe id="payment-iframe" class="payment-iframe" src=""></iframe>
-        </div>
-    </div>
 <!-- Download Verification Modal -->
 <div id="download-modal" class="payment-modal">
     <div class="payment-content">
@@ -936,6 +929,20 @@
         </div>
     </div>
 </div>
+    <!-- Purchase Info Modal -->
+<div id="purchase-info-modal" class="payment-modal">
+    <div class="payment-content">
+        <button class="close-modal" onclick="closePurchaseInfo()">&times;</button>
+        <div style="padding: 2rem; text-align: center;">
+            <h3 style="color: white; margin-bottom: 1rem;">Purchase License Key</h3>
+            <p style="color: #94a3b8; margin-bottom: 2rem;">Contact us on WhatsApp to purchase your license key</p>
+            <div style="font-size: 2rem; margin-bottom: 1rem;">⬇️</div>
+            <a href="https://wa.me/01013887111" class="whatsapp-link" target="_blank">
+                <i class="fab fa-whatsapp"></i> Contact us on WhatsApp
+            </a>
+        </div>
+    </div>
+</div>
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
@@ -944,115 +951,24 @@
     </footer>
 
     <script>
-        // License key generation system
-        const usedKeys = {
-            bls: new Set(),
-            vfs: new Set()
-        };
-
-        function generateLicenseKey(type) {
-    // Add timestamp to make keys unique and traceable
-    const timestamp = Date.now().toString(36).toUpperCase();
-    const prefix = type.toUpperCase();
-
-    let key;
-    let attempts = 0;
-    do {
-        attempts++;
-        const segments = [];
-
-        // First segment: timestamp part
-        segments.push(timestamp.slice(-4));
-
-        // Second and third segments: random
-        for (let i = 0; i < 2; i++) {
-            segments.push(Math.random().toString(36).substr(2, 4).toUpperCase());
-        }
-
-        key = `${prefix}-${segments.join('-')}`;
-
-        // Prevent infinite loop
-        if (attempts > 100) {
-            console.error('Could not generate unique key');
-            break;
-        }
-    } while (usedKeys[type].has(key));
-
-    usedKeys[type].add(key);
-
-    // In a real application, you would save this to your database here
-    console.log(`Generated license key: ${key} for ${type}`);
-
-    return key;
-}
-
-        function openPayment(scriptType) {
-    const modal = document.getElementById('payment-modal');
-    const iframe = document.getElementById('payment-iframe');
-
-    // Add script type to the payment URL so your payment system knows what's being bought
-    iframe.src = `https://paymob.xyz/H3HSx3rG/?product=${scriptType}&amount=${scriptType === 'bls' ? '10000' : '10000'}`;
+        
+function openPurchaseInfo(scriptType) {
+    const modal = document.getElementById('purchase-info-modal');
     modal.classList.add('show');
-
-    // Store the script type for when payment completes
-    sessionStorage.setItem('pendingPurchase', scriptType);
-
-    // Listen for payment completion messages from the payment iframe
-    window.addEventListener('message', function(event) {
-        // This is where your payment provider will send success/failure messages
-        if (event.origin === 'https://paymob.xyz') {
-            if (event.data.status === 'success') {
-                handlePaymentSuccess(scriptType, event.data.transaction_id);
-            } else if (event.data.status === 'failed') {
-                alert('Payment failed. Please try again.');
-                closePayment();
-            }
-        }
-    });
 }
 
-        function closePayment() {
-            const modal = document.getElementById('payment-modal');
-            modal.classList.remove('show');
-            document.getElementById('payment-iframe').src = '';
-        }
+function closePurchaseInfo() {
+    const modal = document.getElementById('purchase-info-modal');
+    modal.classList.remove('show');
+}
 
-        function handlePaymentSuccess(scriptType, transactionId) {
-    // Only generate key if we have a transaction ID (proof of payment)
-    if (!transactionId) {
-        alert('Payment verification failed. Please contact support.');
-        return;
+// Close modal when clicking outside
+document.getElementById('purchase-info-modal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        closePurchaseInfo();
     }
-
-    const licenseKey = generateLicenseKey(scriptType);
-    const keyElement = document.getElementById(`${scriptType}-key`);
-    const licenseSection = document.getElementById(`${scriptType}-license`);
-
-    // Store the purchase info (in a real app, this would be sent to your server)
-    const purchaseInfo = {
-        scriptType: scriptType,
-        licenseKey: licenseKey,
-        transactionId: transactionId,
-        purchaseDate: new Date().toISOString(),
-        customerIP: 'unknown' // You'd get this from your server
-    };
-
-    // Save to localStorage as backup (not secure, but better than nothing)
-    const purchases = JSON.parse(localStorage.getItem('purchases') || '[]');
-    purchases.push(purchaseInfo);
-    localStorage.setItem('purchases', JSON.stringify(purchases));
-
-    keyElement.textContent = licenseKey;
-    licenseSection.classList.add('show');
-
-    closePayment();
-
-    // Clear the pending purchase
-    sessionStorage.removeItem('pendingPurchase');
-
-    alert(`Payment successful! Your license key is: ${licenseKey}\n\nTransaction ID: ${transactionId}\n\nPlease save this information!`);
-}
-
+});
+        
         function copyKey(keyId) {
             const keyText = document.getElementById(keyId).textContent;
             navigator.clipboard.writeText(keyText).then(() => {
