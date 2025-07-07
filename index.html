@@ -443,8 +443,9 @@
         }
 
         .download-btn, .purchase-btn {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 1.1rem;
-    font-weight: 600;
+    font-weight: normal;
     cursor: pointer;
     text-decoration: none;
     display: inline-flex;
@@ -508,6 +509,51 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 0.9rem;
+        }
+
+        /* Payment Modal */
+        .payment-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .payment-modal.show {
+            display: flex;
+        }
+
+        .payment-content {
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 20px;
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 2rem;
+            cursor: pointer;
+        }
+
+        .payment-iframe {
+            width: 800px;
+            height: 600px;
+            border: none;
+            border-radius: 10px;
         }
 
         /* Contact Section */
@@ -752,9 +798,9 @@
                             <a href="#" class="download-btn" onclick="openDownload('bls')">
                                 <i class="fas fa-download"></i> Download
                             </a>
-                            <button class="purchase-btn" onclick="openPurchaseInfo('bls')">
-    <i class="fas fa-credit-card"></i> Purchase
-</button>
+                            <button class="purchase-btn" onclick="openPayment('bls')">
+                                <i class="fas fa-credit-card"></i> Purchase
+                            </button>
                         </div>
                         <div id="bls-license" class="license-section">
                             <h4>Your License Key:</h4>
@@ -861,6 +907,20 @@
         </div>
     </section>
 
+    <!-- Payment Modal -->
+<div id="payment-modal" class="payment-modal">
+    <div class="payment-content">
+        <button class="close-modal" onclick="closePayment()">&times;</button>
+        <div style="padding: 2rem; text-align: center;">
+            <h3 style="color: white; margin-bottom: 1rem;">Purchase License Key</h3>
+            <p style="color: #94a3b8; margin-bottom: 2rem;">Contact us on WhatsApp to purchase your license key</p>
+            <div style="font-size: 2rem; margin-bottom: 1rem;">⬇️</div>
+            <a href="https://wa.me/01013887111" class="whatsapp-link" target="_blank">
+                <i class="fab fa-whatsapp"></i> Contact us on WhatsApp
+            </a>
+        </div>
+    </div>
+</div>
 <!-- Download Verification Modal -->
 <div id="download-modal" class="payment-modal">
     <div class="payment-content">
@@ -883,20 +943,6 @@
         </div>
     </div>
 </div>
-    <!-- Purchase Info Modal -->
-<div id="purchase-info-modal" class="payment-modal">
-    <div class="payment-content">
-        <button class="close-modal" onclick="closePurchaseInfo()">&times;</button>
-        <div style="padding: 2rem; text-align: center;">
-            <h3 style="color: white; margin-bottom: 1rem;">Purchase License Key</h3>
-            <p style="color: #94a3b8; margin-bottom: 2rem;">Contact us on WhatsApp to purchase your license key</p>
-            <div style="font-size: 2rem; margin-bottom: 1rem;">⬇️</div>
-            <a href="https://wa.me/01013887111" class="whatsapp-link" target="_blank">
-                <i class="fab fa-whatsapp"></i> Contact us on WhatsApp
-            </a>
-        </div>
-    </div>
-</div>
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
@@ -905,24 +951,95 @@
     </footer>
 
     <script>
-        
-function openPurchaseInfo(scriptType) {
-    const modal = document.getElementById('purchase-info-modal');
+        // License key generation system
+        const usedKeys = {
+            bls: new Set(),
+            vfs: new Set()
+        };
+
+        function generateLicenseKey(type) {
+    // Add timestamp to make keys unique and traceable
+    const timestamp = Date.now().toString(36).toUpperCase();
+    const prefix = type.toUpperCase();
+
+    let key;
+    let attempts = 0;
+    do {
+        attempts++;
+        const segments = [];
+
+        // First segment: timestamp part
+        segments.push(timestamp.slice(-4));
+
+        // Second and third segments: random
+        for (let i = 0; i < 2; i++) {
+            segments.push(Math.random().toString(36).substr(2, 4).toUpperCase());
+        }
+
+        key = `${prefix}-${segments.join('-')}`;
+
+        // Prevent infinite loop
+        if (attempts > 100) {
+            console.error('Could not generate unique key');
+            break;
+        }
+    } while (usedKeys[type].has(key));
+
+    usedKeys[type].add(key);
+
+    // In a real application, you would save this to your database here
+    console.log(`Generated license key: ${key} for ${type}`);
+
+    return key;
+}
+
+        function openPayment(scriptType) {
+    const modal = document.getElementById('payment-modal');
     modal.classList.add('show');
 }
 
-function closePurchaseInfo() {
-    const modal = document.getElementById('purchase-info-modal');
-    modal.classList.remove('show');
+        function closePayment() {
+            const modal = document.getElementById('payment-modal');
+            modal.classList.remove('show');
+            document.getElementById('payment-iframe').src = '';
+        }
+
+        function handlePaymentSuccess(scriptType, transactionId) {
+    // Only generate key if we have a transaction ID (proof of payment)
+    if (!transactionId) {
+        alert('Payment verification failed. Please contact support.');
+        return;
+    }
+
+    const licenseKey = generateLicenseKey(scriptType);
+    const keyElement = document.getElementById(`${scriptType}-key`);
+    const licenseSection = document.getElementById(`${scriptType}-license`);
+
+    // Store the purchase info (in a real app, this would be sent to your server)
+    const purchaseInfo = {
+        scriptType: scriptType,
+        licenseKey: licenseKey,
+        transactionId: transactionId,
+        purchaseDate: new Date().toISOString(),
+        customerIP: 'unknown' // You'd get this from your server
+    };
+
+    // Save to localStorage as backup (not secure, but better than nothing)
+    const purchases = JSON.parse(localStorage.getItem('purchases') || '[]');
+    purchases.push(purchaseInfo);
+    localStorage.setItem('purchases', JSON.stringify(purchases));
+
+    keyElement.textContent = licenseKey;
+    licenseSection.classList.add('show');
+
+    closePayment();
+
+    // Clear the pending purchase
+    sessionStorage.removeItem('pendingPurchase');
+
+    alert(`Payment successful! Your license key is: ${licenseKey}\n\nTransaction ID: ${transactionId}\n\nPlease save this information!`);
 }
 
-// Close modal when clicking outside
-document.getElementById('purchase-info-modal').addEventListener('click', function(e) {
-    if (e.target === this) {
-        closePurchaseInfo();
-    }
-});
-        
         function copyKey(keyId) {
             const keyText = document.getElementById(keyId).textContent;
             navigator.clipboard.writeText(keyText).then(() => {
