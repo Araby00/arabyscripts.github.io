@@ -752,21 +752,32 @@
     transform: scale(1.05) !important;
     text-shadow: 0 0 10px rgba(16, 185, 129, 0.5) !important;
 }
-        /* Remove the old CSS and add this */
-.payment-content {
-    transition: transform 0.8s ease;
-    transform: rotateX(-90deg);
-    transform-origin: bottom;
+        /* Cool slide-up card animation */
+.payment-modal, .download-modal {
+    display: flex;
     opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.payment-modal.show, .download-modal.show {
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+}
+
+.payment-content {
+    transform: translateY(100px) scale(0.8);
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .payment-modal.show .payment-content,
 .download-modal.show .payment-content {
-    transform: rotateX(0deg);
+    transform: translateY(0) scale(1);
     opacity: 1;
 }
-
-/* For blur background */
+        /* For blur background */
 .payment-modal.show, .download-modal.show {
     background: rgba(0, 0, 0, 0.8);
     backdrop-filter: blur(15px);
@@ -1093,34 +1104,33 @@ function verifyAndDownload() {
     const scriptType = document.getElementById('download-modal').getAttribute('data-script');
     const messageDiv = document.getElementById('verification-message');
 
-    // Check if key is empty
+    console.log('Script type:', scriptType); // Debug line
+
     if (!key) {
         messageDiv.textContent = 'Please enter your license key';
         messageDiv.style.color = '#ef4444';
         return;
     }
 
-    // Check key format
+    // Fix the prefix check
     const expectedPrefix = scriptType.toUpperCase();
+    console.log('Expected prefix:', expectedPrefix); // Debug line
+    
     if (!key.startsWith(expectedPrefix + '-') || key.length < 15) {
-        messageDiv.textContent = 'Invalid license key format';
+        messageDiv.textContent = `Invalid license key format. Expected format: ${expectedPrefix}-XXXX-XXXX-XXXX`;
         messageDiv.style.color = '#ef4444';
         return;
     }
 
-    // Check if this key was actually generated (basic check)
-    if (!usedKeys[scriptType].has(key)) {
+    if (!usedKeys[scriptType] || !usedKeys[scriptType].has(key)) {
         messageDiv.textContent = 'License key not found or invalid';
         messageDiv.style.color = '#ef4444';
         return;
     }
 
-    // Success - allow download
     messageDiv.textContent = 'License verified! Starting download...';
     messageDiv.style.color = '#10b981';
 
-    // Here you would normally redirect to your server download endpoint
-    // For now, we'll just show success
     setTimeout(() => {
         alert(`Download started for ${scriptType.toUpperCase()} script!`);
         closeDownload();
