@@ -1021,48 +1021,7 @@
     </footer>
 
     <script>
-        // License key generation system
-        const usedKeys = {
-            bls: new Set(),
-            vfs: new Set()
-        };
-
-        function generateLicenseKey(type) {
-    // Add timestamp to make keys unique and traceable
-    const timestamp = Date.now().toString(36).toUpperCase();
-    const prefix = type.toUpperCase();
-
-    let key;
-    let attempts = 0;
-    do {
-        attempts++;
-        const segments = [];
-
-        // First segment: timestamp part
-        segments.push(timestamp.slice(-4));
-
-        // Second and third segments: random
-        for (let i = 0; i < 2; i++) {
-            segments.push(Math.random().toString(36).substr(2, 4).toUpperCase());
-        }
-
-        key = `${prefix}-${segments.join('-')}`;
-
-        // Prevent infinite loop
-        if (attempts > 100) {
-            console.error('Could not generate unique key');
-            break;
-        }
-    } while (usedKeys[type].has(key));
-
-    usedKeys[type].add(key);
-
-    // In a real application, you would save this to your database here
-    console.log(`Generated license key: ${key} for ${type}`);
-
-    return key;
-}
-
+        
         function openPayment(scriptType) {
     const modal = document.getElementById('payment-modal');
     modal.classList.add('show');
@@ -1072,41 +1031,7 @@ function closePayment() {
     modal.classList.remove('show');
 }
 
-        function handlePaymentSuccess(scriptType, transactionId) {
-    // Only generate key if we have a transaction ID (proof of payment)
-    if (!transactionId) {
-        alert('Payment verification failed. Please contact support.');
-        return;
-    }
-
-    const licenseKey = generateLicenseKey(scriptType);
-    const keyElement = document.getElementById(`${scriptType}-key`);
-    const licenseSection = document.getElementById(`${scriptType}-license`);
-
-    // Store the purchase info (in a real app, this would be sent to your server)
-    const purchaseInfo = {
-        scriptType: scriptType,
-        licenseKey: licenseKey,
-        transactionId: transactionId,
-        purchaseDate: new Date().toISOString(),
-        customerIP: 'unknown' // You'd get this from your server
-    };
-
-    // Save to localStorage as backup (not secure, but better than nothing)
-    const purchases = JSON.parse(localStorage.getItem('purchases') || '[]');
-    purchases.push(purchaseInfo);
-    localStorage.setItem('purchases', JSON.stringify(purchases));
-
-    keyElement.textContent = licenseKey;
-    licenseSection.classList.add('show');
-
-    closePayment();
-
-    // Clear the pending purchase
-    sessionStorage.removeItem('pendingPurchase');
-
-    alert(`Payment successful! Your license key is: ${licenseKey}\n\nTransaction ID: ${transactionId}\n\nPlease save this information!`);
-}
+        
 
         function copyKey(keyId) {
             const keyText = document.getElementById(keyId).textContent;
@@ -1151,23 +1076,9 @@ function verifyAndDownload() {
         return;
     }
 
-    // Check if this key was actually generated (basic check)
-    if (!usedKeys[scriptType].has(key)) {
-        messageDiv.textContent = 'License key not found or invalid';
-        messageDiv.style.color = '#ef4444';
-        return;
-    }
-
-    // Success - allow download
-    messageDiv.textContent = 'License verified! Starting download...';
-    messageDiv.style.color = '#10b981';
-
-    // Here you would normally redirect to your server download endpoint
-    // For now, we'll just show success
-    setTimeout(() => {
-        alert(`Download started for ${scriptType.toUpperCase()} script!`);
-        closeDownload();
-    }, 1500);
+    // Contact admin for verification message
+    messageDiv.textContent = 'Please contact us on WhatsApp to verify your license key';
+    messageDiv.style.color = '#f59e0b';
 }
 
         // Smooth scrolling for navigation links (fallback version)
