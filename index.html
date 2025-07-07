@@ -1002,11 +1002,7 @@
                    style="padding: 1rem; margin: 1rem; width: 400px; border-radius: 8px; border: 1px solid #666;
                           background: #1a1a2e; color: white; font-size: 1rem;">
             <br>
-            <button onclick="verifyAndDownload()"
-        style="font-family: 'HelpMe', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-               font-size: 1.1rem; background: none; border: none; cursor: pointer;
-               color: #10b981; margin-top: 1rem; padding: 0.5rem 1rem;
-               transition: all 0.3s ease;">
+            <button onclick="submitLicenseKey()" style="font-family: 'HelpMe', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 1.1rem; background: none; border: none; cursor: pointer; color: #10b981; margin-top: 1rem; padding: 0.5rem 1rem; transition: all 0.3s ease;">
     Verify & Download
 </button>
             <div id="verification-message" style="margin-top: 1rem; color: #f59e0b;"></div>
@@ -1056,23 +1052,57 @@ function closeDownload() {
     document.getElementById('verification-message').textContent = '';
 }
 
-function verifyAndDownload() {
+function submitLicenseKey() {
     const key = document.getElementById('license-input').value.trim();
     const scriptType = document.getElementById('download-modal').getAttribute('data-script');
     const messageDiv = document.getElementById('verification-message');
 
-
-    // Check key format
-    const expectedPrefix = scriptType.toUpperCase();
-    if (!key.startsWith(expectedPrefix + '-') || key.length < 15) {
-        messageDiv.textContent = 'Invalid license key format';
+    if (!key) {
+        messageDiv.textContent = 'Please enter your license key';
         messageDiv.style.color = '#ef4444';
         return;
     }
 
-    // Contact admin for verification message
-    messageDiv.textContent = 'Please contact us on WhatsApp to verify your license key';
+    // Show loading message
+    messageDiv.textContent = 'Verifying license key...';
     messageDiv.style.color = '#f59e0b';
+
+    // Send to your server for verification
+    fetch('/verify-license', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            licenseKey: key,
+            scriptType: scriptType
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            messageDiv.textContent = 'License verified! Starting download...';
+            messageDiv.style.color = '#10b981';
+            
+            // Create download link with one-time token
+            const downloadLink = document.createElement('a');
+            downloadLink.href = data.downloadUrl;
+            downloadLink.download = data.filename;
+            downloadLink.click();
+            
+            // Close modal after download
+            setTimeout(() => {
+                closeDownload();
+            }, 2000);
+        } else {
+            messageDiv.textContent = data.message || 'Invalid license key';
+            messageDiv.style.color = '#ef4444';
+        }
+    })
+    .catch(error => {
+        messageDiv.textContent = 'Error verifying license. Please try again.';
+        messageDiv.style.color = '#ef4444';
+    });
 }
 
         // Smooth scrolling for navigation links (fallback version)
