@@ -752,36 +752,45 @@
     transform: scale(1.05) !important;
     text-shadow: 0 0 10px rgba(16, 185, 129, 0.5) !important;
 }
-        /* Card flip animation */
+        /* 3D Card Flip Animation */
 .payment-modal, .download-modal {
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    perspective: 1000px;
 }
 
 .payment-content {
     transform-style: preserve-3d;
-    transition: transform 0.6s ease;
-    transform: rotateY(-180deg);
+    transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform: rotateY(180deg) scale(0.8);
+    opacity: 0;
 }
 
 .payment-modal.show .payment-content {
-    transform: rotateY(0deg);
+    transform: rotateY(0deg) scale(1);
+    opacity: 1;
 }
 
 .download-modal .payment-content {
-    transform: rotateY(-180deg);
+    transform: rotateY(180deg) scale(0.8);
+    opacity: 0;
 }
 
 .download-modal.show .payment-content {
-    transform: rotateY(0deg);
+    transform: rotateY(0deg) scale(1);
+    opacity: 1;
 }
 
 /* Enhanced blur background */
+.payment-modal, .download-modal {
+    backdrop-filter: blur(0px);
+    transition: backdrop-filter 0.3s ease;
+}
+
 .payment-modal.show, .download-modal.show {
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
 }
+        
     </style>
 </head>
 <body>
