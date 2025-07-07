@@ -754,41 +754,32 @@
 }
         /* 3D Card Flip Animation */
 .payment-modal, .download-modal {
-    perspective: 1000px;
+    perspective: 1200px;
 }
 
 .payment-content {
     transform-style: preserve-3d;
-    transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    transform: rotateY(180deg) scale(0.8);
+    transition: all 0.6s ease;
+    transform: rotateY(-90deg) translateZ(-200px);
     opacity: 0;
 }
 
-.payment-modal.show .payment-content {
-    transform: rotateY(0deg) scale(1);
-    opacity: 1;
-}
-
-.download-modal .payment-content {
-    transform: rotateY(180deg) scale(0.8);
-    opacity: 0;
-}
-
+.payment-modal.show .payment-content,
 .download-modal.show .payment-content {
-    transform: rotateY(0deg) scale(1);
+    transform: rotateY(0deg) translateZ(0px);
     opacity: 1;
 }
 
 /* Enhanced blur background */
 .payment-modal, .download-modal {
     backdrop-filter: blur(0px);
-    transition: backdrop-filter 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 .payment-modal.show, .download-modal.show {
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
 }
         
     </style>
@@ -1066,39 +1057,22 @@
         }
 
         function handlePaymentSuccess(scriptType, transactionId) {
-    // Only generate key if we have a transaction ID (proof of payment)
     if (!transactionId) {
         alert('Payment verification failed. Please contact support.');
         return;
     }
 
-    const licenseKey = generateLicenseKey(scriptType);
-    const keyElement = document.getElementById(`${scriptType}-key`);
-    const licenseSection = document.getElementById(`${scriptType}-license`);
-
-    // Store the purchase info (in a real app, this would be sent to your server)
-    const purchaseInfo = {
-        scriptType: scriptType,
-        licenseKey: licenseKey,
-        transactionId: transactionId,
-        purchaseDate: new Date().toISOString(),
-        customerIP: 'unknown' // You'd get this from your server
-    };
-
-    // Save to localStorage as backup (not secure, but better than nothing)
-    const purchases = JSON.parse(localStorage.getItem('purchases') || '[]');
-    purchases.push(purchaseInfo);
-    localStorage.setItem('purchases', JSON.stringify(purchases));
+    // Make sure scriptType is correct
+    const cleanScriptType = scriptType.toLowerCase(); // Convert to lowercase
+    const licenseKey = generateLicenseKey(cleanScriptType);
+    const keyElement = document.getElementById(`${cleanScriptType}-key`);
+    const licenseSection = document.getElementById(`${cleanScriptType}-license`);
 
     keyElement.textContent = licenseKey;
     licenseSection.classList.add('show');
 
     closePayment();
-
-    // Clear the pending purchase
-    sessionStorage.removeItem('pendingPurchase');
-
-    alert(`Payment successful! Your license key is: ${licenseKey}\n\nTransaction ID: ${transactionId}\n\nPlease save this information!`);
+    alert(`Payment successful! Your license key is: ${licenseKey}`);
 }
 
         function copyKey(keyId) {
