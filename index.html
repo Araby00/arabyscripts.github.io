@@ -755,7 +755,19 @@
     </style>
 </head>
 <body>
-    <script>history.scrollRestoration = 'manual';</script>
+    <script>
+    history.scrollRestoration = 'manual';
+    
+    // Smooth scroll to top on page load/refresh
+    window.addEventListener('load', function() {
+        if (window.scrollY > 0) {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+    });
+    </script>
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
