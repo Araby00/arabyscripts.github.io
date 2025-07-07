@@ -752,6 +752,36 @@
     transform: scale(1.05) !important;
     text-shadow: 0 0 10px rgba(16, 185, 129, 0.5) !important;
 }
+        /* Card flip animation */
+.payment-modal, .download-modal {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.payment-content {
+    transform-style: preserve-3d;
+    transition: transform 0.6s ease;
+    transform: rotateY(-180deg);
+}
+
+.payment-modal.show .payment-content {
+    transform: rotateY(0deg);
+}
+
+.download-modal .payment-content {
+    transform: rotateY(-180deg);
+}
+
+.download-modal.show .payment-content {
+    transform: rotateY(0deg);
+}
+
+/* Enhanced blur background */
+.payment-modal.show, .download-modal.show {
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+}
     </style>
 </head>
 <body>
@@ -944,7 +974,7 @@
     </div>
 </div>
 <!-- Download Verification Modal -->
-<div id="download-modal" class="payment-modal">
+<div id="download-modal" class="payment-modal download-modal">
     <div class="payment-content">
         <button class="close-modal" onclick="closeDownload()">&times;</button>
         <div style="padding: 2rem; text-align: center;">
