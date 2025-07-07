@@ -46,9 +46,9 @@
         }
 
         html {
-            scroll-behavior: smooth;
-        }
-
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px;
+}
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: var(--bg-dark);
@@ -89,6 +89,27 @@
     background: var(--primary);
     border-radius: 50%;
     box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+}
+        .css-arrow {
+    width: 0;
+    height: 0;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-top: 20px solid #10b981;
+    margin: 1rem auto;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-10px);
+    }
+    60% {
+        transform: translateY(-5px);
+    }
 }
 /* Add this new CSS rule anywhere in your <style> section */
 .separator-line {
@@ -914,7 +935,7 @@
         <div style="padding: 2rem; text-align: center;">
             <h3 style="color: white; margin-bottom: 1rem;">Purchase License Key</h3>
             <p style="color: #94a3b8; margin-bottom: 2rem;">Contact us on WhatsApp to purchase your license key</p>
-            <div style="font-size: 2rem; margin-bottom: 1rem;">⬇️</div>
+            <div class="css-arrow"></div>
             <a href="https://wa.me/01013887111" class="whatsapp-link" target="_blank">
                 <i class="fab fa-whatsapp"></i> Contact us on WhatsApp
             </a>
@@ -1103,18 +1124,22 @@ function verifyAndDownload() {
 }
 
         // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            // Add smooth scroll with offset for navbar
+            const navbarHeight = 80;
+            const targetPosition = target.offsetTop - navbarHeight;
+            
+            window.scrollTo({
+                top: targetPosition,
+                behavior: 'smooth'
             });
-        });
+        }
+    });
+});
 
         // Navbar background on scroll
         window.addEventListener('scroll', () => {
