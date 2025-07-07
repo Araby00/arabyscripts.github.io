@@ -755,30 +755,7 @@
     </style>
 </head>
 <body>
-    <script>
-    // Store scroll position before page unloads
-    window.addEventListener('beforeunload', function() {
-        sessionStorage.setItem('scrollPos', window.scrollY);
-    });
-    
-    // Restore and animate on load
-    window.addEventListener('load', function() {
-        const savedPos = sessionStorage.getItem('scrollPos');
-        if (savedPos && savedPos > 0) {
-            // Set to saved position instantly
-            window.scrollTo(0, savedPos);
-            
-            // Then animate to top
-            setTimeout(() => {
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
-            }, 100);
-        }
-        sessionStorage.removeItem('scrollPos');
-    });
-    </script>
+    <script>history.scrollRestoration = 'manual';</script>
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
