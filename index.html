@@ -752,32 +752,54 @@
     transform: scale(1.05) !important;
     text-shadow: 0 0 10px rgba(16, 185, 129, 0.5) !important;
 }
-        /* Cool slide-up card animation */
-.payment-modal, .download-modal {
-    display: flex;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.payment-modal.show, .download-modal.show {
-    opacity: 1;
-    background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
+        /* Enhanced Modal Styling */
+.payment-modal {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    background: rgba(0, 0, 0, 0.7);
+    animation: fadeIn 0.3s ease;
 }
 
 .payment-content {
-    transform: translateY(100px) scale(0.8);
-    opacity: 0;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    background: linear-gradient(135deg, var(--bg-card) 0%, rgba(30, 30, 63, 0.95) 100%);
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+    transform: scale(0.9);
+    animation: modalSlideIn 0.3s ease forwards;
 }
 
-.payment-modal.show .payment-content,
-.download-modal.show .payment-content {
-    transform: translateY(0) scale(1);
-    opacity: 1;
+@keyframes modalSlideIn {
+    to {
+        transform: scale(1);
+    }
 }
-        
+
+.close-modal {
+    transition: all 0.3s ease;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.close-modal:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: rotate(90deg);
+}
+
+#license-input {
+    border: 2px solid rgba(99, 102, 241, 0.3);
+    transition: all 0.3s ease;
+}
+
+#license-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 15px rgba(99, 102, 241, 0.3);
+}
     </style>
 </head>
 <body>
@@ -970,7 +992,7 @@
     </div>
 </div>
 <!-- Download Verification Modal -->
-<div id="download-modal" class="payment-modal download-modal">
+<div id="download-modal" class="payment-modal">
     <div class="payment-content">
         <button class="close-modal" onclick="closeDownload()">&times;</button>
         <div style="padding: 2rem; text-align: center;">
@@ -1044,31 +1066,51 @@
         function openPayment(scriptType) {
     const modal = document.getElementById('payment-modal');
     modal.classList.add('show');
+    document.body.style.filter = 'blur(3px)';
+    document.querySelector('.navbar').style.filter = 'blur(3px)';
 }
 
-        function closePayment() {
-            const modal = document.getElementById('payment-modal');
-            modal.classList.remove('show');
-            document.getElementById('payment-iframe').src = '';
-        }
+function closePayment() {
+    const modal = document.getElementById('payment-modal');
+    modal.classList.remove('show');
+    document.body.style.filter = 'none';
+    document.querySelector('.navbar').style.filter = 'none';
+}
 
         function handlePaymentSuccess(scriptType, transactionId) {
+    // Only generate key if we have a transaction ID (proof of payment)
     if (!transactionId) {
         alert('Payment verification failed. Please contact support.');
         return;
     }
 
-    // Make sure scriptType is correct
-    const cleanScriptType = scriptType.toLowerCase(); // Convert to lowercase
-    const licenseKey = generateLicenseKey(cleanScriptType);
-    const keyElement = document.getElementById(`${cleanScriptType}-key`);
-    const licenseSection = document.getElementById(`${cleanScriptType}-license`);
+    const licenseKey = generateLicenseKey(scriptType);
+    const keyElement = document.getElementById(`${scriptType}-key`);
+    const licenseSection = document.getElementById(`${scriptType}-license`);
+
+    // Store the purchase info (in a real app, this would be sent to your server)
+    const purchaseInfo = {
+        scriptType: scriptType,
+        licenseKey: licenseKey,
+        transactionId: transactionId,
+        purchaseDate: new Date().toISOString(),
+        customerIP: 'unknown' // You'd get this from your server
+    };
+
+    // Save to localStorage as backup (not secure, but better than nothing)
+    const purchases = JSON.parse(localStorage.getItem('purchases') || '[]');
+    purchases.push(purchaseInfo);
+    localStorage.setItem('purchases', JSON.stringify(purchases));
 
     keyElement.textContent = licenseKey;
     licenseSection.classList.add('show');
 
     closePayment();
-    alert(`Payment successful! Your license key is: ${licenseKey}`);
+
+    // Clear the pending purchase
+    sessionStorage.removeItem('pendingPurchase');
+
+    alert(`Payment successful! Your license key is: ${licenseKey}\n\nTransaction ID: ${transactionId}\n\nPlease save this information!`);
 }
 
         function copyKey(keyId) {
@@ -1099,33 +1141,34 @@ function verifyAndDownload() {
     const scriptType = document.getElementById('download-modal').getAttribute('data-script');
     const messageDiv = document.getElementById('verification-message');
 
-    console.log('Script type:', scriptType); // Debug line
-
+    // Check if key is empty
     if (!key) {
         messageDiv.textContent = 'Please enter your license key';
         messageDiv.style.color = '#ef4444';
         return;
     }
 
-    // Fix the prefix check
+    // Check key format
     const expectedPrefix = scriptType.toUpperCase();
-    console.log('Expected prefix:', expectedPrefix); // Debug line
-    
     if (!key.startsWith(expectedPrefix + '-') || key.length < 15) {
-        messageDiv.textContent = `Invalid license key format. Expected format: ${expectedPrefix}-XXXX-XXXX-XXXX`;
+        messageDiv.textContent = 'Invalid license key format';
         messageDiv.style.color = '#ef4444';
         return;
     }
 
-    if (!usedKeys[scriptType] || !usedKeys[scriptType].has(key)) {
+    // Check if this key was actually generated (basic check)
+    if (!usedKeys[scriptType].has(key)) {
         messageDiv.textContent = 'License key not found or invalid';
         messageDiv.style.color = '#ef4444';
         return;
     }
 
+    // Success - allow download
     messageDiv.textContent = 'License verified! Starting download...';
     messageDiv.style.color = '#10b981';
 
+    // Here you would normally redirect to your server download endpoint
+    // For now, we'll just show success
     setTimeout(() => {
         alert(`Download started for ${scriptType.toUpperCase()} script!`);
         closeDownload();
