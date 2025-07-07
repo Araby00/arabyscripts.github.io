@@ -443,7 +443,7 @@
         }
 
         .download-btn, .purchase-btn {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'HelpMe', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 1.1rem;
     font-weight: normal;
     cursor: pointer;
@@ -509,6 +509,20 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 0.9rem;
+        }
+
+        /* Payment Modal */
+        .payment-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
         }
 
         .payment-modal.show {
@@ -784,9 +798,9 @@
                             <a href="#" class="download-btn" onclick="openDownload('bls')">
                                 <i class="fas fa-download"></i> Download
                             </a>
-                            <button class="purchase-btn" onclick="showPurchaseInfo()">
-    <i class="fas fa-credit-card"></i> Purchase
-</button>
+                            <button class="purchase-btn" onclick="openPayment('bls')">
+                                <i class="fas fa-credit-card"></i> Purchase
+                            </button>
                         </div>
                         <div id="bls-license" class="license-section">
                             <h4>Your License Key:</h4>
@@ -893,7 +907,13 @@
         </div>
     </section>
 
-    
+    <!-- Payment Modal -->
+    <div id="payment-modal" class="payment-modal">
+        <div class="payment-content">
+            <button class="close-modal" onclick="closePayment()">&times;</button>
+            <iframe id="payment-iframe" class="payment-iframe" src=""></iframe>
+        </div>
+    </div>
 <!-- Download Verification Modal -->
 <div id="download-modal" class="payment-modal">
     <div class="payment-content">
@@ -966,6 +986,44 @@
     return key;
 }
 
+        function openPayment(scriptType) {
+    const modal = document.getElementById('payment-modal');
+    const iframe = document.getElementById('payment-iframe');
+
+    // Add script type to the payment URL so your payment system knows what's being bought
+    iframe.src = `https://paymob.xyz/H3HSx3rG/?product=${scriptType}&amount=${scriptType === 'bls' ? '10000' : '10000'}`;
+    modal.classList.add('show');
+
+    // Store the script type for when payment completes
+    sessionStorage.setItem('pendingPurchase', scriptType);
+
+    // Listen for payment completion messages from the payment iframe
+    window.addEventListener('message', function(event) {
+        // This is where your payment provider will send success/failure messages
+        if (event.origin === 'https://paymob.xyz') {
+            if (event.data.status === 'success') {
+                handlePaymentSuccess(scriptType, event.data.transaction_id);
+            } else if (event.data.status === 'failed') {
+                alert('Payment failed. Please try again.');
+                closePayment();
+            }
+        }
+    });
+}
+
+        function closePayment() {
+            const modal = document.getElementById('payment-modal');
+            modal.classList.remove('show');
+            document.getElementById('payment-iframe').src = '';
+        }
+
+        function handlePaymentSuccess(scriptType, transactionId) {
+    // Only generate key if we have a transaction ID (proof of payment)
+    if (!transactionId) {
+        alert('Payment verification failed. Please contact support.');
+        return;
+    }
+
     const licenseKey = generateLicenseKey(scriptType);
     const keyElement = document.getElementById(`${scriptType}-key`);
     const licenseSection = document.getElementById(`${scriptType}-license`);
@@ -1001,11 +1059,6 @@
                 alert('License key copied to clipboard!');
             });
         }
-        function showPurchaseInfo() {
-    alert("To purchase a license key, please contact us on WhatsApp!");
-    // Optional: scroll to WhatsApp section
-    document.querySelector('#contact').scrollIntoView({ behavior: 'smooth' });
-}
 
         // Download verification system
 function openDownload(scriptType) {
