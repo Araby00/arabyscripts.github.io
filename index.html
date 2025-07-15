@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ArabyScripts - Auto Booking Scripts</title>
@@ -109,6 +110,155 @@
     }
     60% {
         transform: translateY(-5px);
+    }
+}
+/* Newsletter Popup */
+.newsletter-popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    z-index: 3000;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.3s ease;
+}
+.newsletter-popup.show {
+    display: flex;
+}
+.newsletter-content {
+    background: linear-gradient(135deg, var(--bg-card) 0%, rgba(30, 30, 63, 0.95) 100%);
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    border-radius: 20px;
+    padding: 3rem;
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+    transform: scale(0.9);
+    animation: modalSlideIn 0.3s ease forwards;
+    transition: opacity 0.3s ease-out;
+}
+.newsletter-content.fade-out {
+    opacity: 0;
+}
+.newsletter-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: var(--text-light);
+    font-size: 1.5rem;
+    cursor: pointer;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+.newsletter-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: rotate(90deg);
+}
+.newsletter-title {
+    font-family: 'HelpMe', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.newsletter-description {
+    color: #94a3b8;
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+.newsletter-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    transition: opacity 0.3s ease;
+}
+.newsletter-form.fade-out {
+    opacity: 0;
+}
+.newsletter-message-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.3s ease-in;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+.newsletter-message-center.fade-in {
+    opacity: 1;
+}
+.newsletter-email {
+    padding: 1rem;
+    border: 2px solid rgba(99, 102, 241, 0.3);
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.3);
+    color: var(--text-light);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+.newsletter-email:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 15px rgba(99, 102, 241, 0.3);
+}
+.newsletter-submit {
+    padding: 1rem 2rem;
+    background: var(--gradient);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+}
+.newsletter-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+}
+.newsletter-submit::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+}
+.newsletter-submit:hover::before {
+    left: 100%;
+}
+@media (max-width: 768px) {
+    .newsletter-content {
+        padding: 2rem;
+        margin: 1rem;
+    }
+    
+    .newsletter-title {
+        font-size: 1.5rem;
     }
 }
 /* Add this new CSS rule anywhere in your <style> section */
@@ -424,7 +574,7 @@
         }
 
         .script-price {
-    font-family: 'HelpMe', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 2rem;
     font-weight: bold;
     background: linear-gradient(135deg, #10b981 0%, #34d399 50%, #6ee7b7 100%);
@@ -1263,6 +1413,108 @@ document.getElementById('download-modal').addEventListener('click', function(e) 
                 closePayment();
             }
         });
+// Close modal when clicking outside
+document.getElementById('payment-modal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        closePayment();
+    }
+});
+
+// ADD THIS NEWSLETTER CODE HERE:
+// Newsletter popup system
+function showNewsletter() {
+    // Check if user already subscribed
+    if (localStorage.getItem('newsletter-subscribed') === 'true') {
+        return;
+    }
+    
+    const popup = document.getElementById('newsletter-popup');
+    popup.classList.add('show');
+}
+
+function closeNewsletter() {
+    const popup = document.getElementById('newsletter-popup');
+    popup.classList.remove('show');
+}
+
+function submitNewsletter(event) {
+    event.preventDefault();
+    
+    const email = document.getElementById('newsletter-email').value;
+    const messageDiv = document.getElementById('newsletter-message');
+    
+    // Show loading message
+    messageDiv.textContent = 'Subscribing...';
+    messageDiv.style.color = '#f59e0b';
+    
+    // Initialize EmailJS (replace with your actual public key)
+    emailjs.init("ZPfkqSm65aOaoSNyx");
+    
+    // Send email using EmailJS
+    emailjs.send("service_i0deo2g", "template_0zcgttg", {
+        user_email: email,
+        submission_date: new Date().toLocaleString()
+    })
+    .then(function(response) {
+        // Fade out title, description, and form
+        document.querySelector('.newsletter-title').style.opacity = '0';
+        document.querySelector('.newsletter-title').style.transition = 'opacity 0.3s ease';
+        
+        document.querySelector('.newsletter-description').style.opacity = '0';
+        document.querySelector('.newsletter-description').style.transition = 'opacity 0.3s ease';
+        
+        document.querySelector('.newsletter-form').style.opacity = '0';
+        document.querySelector('.newsletter-form').style.transition = 'opacity 0.3s ease';
+        
+        // After content fades out, show centered message
+        setTimeout(() => {
+            // Hide all content except message (after fade)
+            document.querySelector('.newsletter-title').style.display = 'none';
+            document.querySelector('.newsletter-description').style.display = 'none';
+            document.querySelector('.newsletter-form').style.display = 'none';
+            
+            // Style and show message
+            messageDiv.textContent = 'Thank you! You will get notifications for every new update on the site. Keep Scrolling :)';
+            messageDiv.style.color = '#10b981';
+            messageDiv.className = 'newsletter-message-center fade-in';
+            
+            // Mark as subscribed
+            localStorage.setItem('newsletter-subscribed', 'true');
+        }, 300);
+    })
+    .catch(function(error) {
+        messageDiv.textContent = 'Error subscribing. Please try again.';
+        messageDiv.style.color = '#ef4444';
+    });
+}
+
+// Show newsletter popup after 4 seconds
+setTimeout(showNewsletter, 4000);
+
+// Close popup when clicking outside
+document.getElementById('newsletter-popup').addEventListener('click', function(e) {
+    if (e.target === this) {
+        closeNewsletter();
+    }
+});
     </script>
+<!-- Newsletter Popup -->
+<div id="newsletter-popup" class="newsletter-popup">
+    <div class="newsletter-content">
+        <button class="newsletter-close" onclick="closeNewsletter()">&times;</button>
+        <h3 class="newsletter-title">Stay Updated!</h3>
+        <p class="newsletter-description">
+            Be the first to know about new scripts, offers, and sales. Get exclusive notifications directly to your inbox!
+        </p>
+        <form class="newsletter-form" onsubmit="submitNewsletter(event)">
+            <input type="email" id="newsletter-email" class="newsletter-email" 
+                   placeholder="Enter your email address" required>
+            <button type="submit" class="newsletter-submit">
+                <i class="fas fa-paper-plane"></i> Subscribe for Updates
+            </button>
+        </form>
+        <div id="newsletter-message" style="margin-top: 1rem; color: #f59e0b;"></div>
+    </div>
+</div>
 </body>
 </html>
